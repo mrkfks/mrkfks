@@ -1,0 +1,85 @@
+:host {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+.editor-area {
+  flex: 1;
+  height: 100%;
+  background-color: #1e1e1e;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.tabs-bar {
+  height: 35px;
+  background-color: #252526;
+  display: flex;
+  border-bottom: 1px solid #2b2b2b;
+  overflow-x: auto;
+}
+
+.tab {
+  padding: 0 16px;
+  height: 100%;
+  background-color: #2d2d2d;
+  color: #858585;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-right: 1px solid #252526;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tab.active {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  border-top: 2px solid #007acc;
+}
+
+.tab-icon {
+  color: #519aba;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.tab-icon.json {
+  color: #cbd488;
+}
+
+.close-tab {
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.close-tab:hover {
+  opacity: 1;
+}
+
+.breadcrumb {
+  height: 22px;
+  background-color: #1e1e1e;
+  border-bottom: 1px solid #2b2b2b;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #858585;
+}
+
+.breadcrumb .current {
+  color: #ffffff;
+  margin-left: 4px;
+}
+
+.code-container {
+  flex: 1;
+  padding: 16px;
+  overflow: auto;
+  font-family: 'Consolas', 'Fira Code', monospace;
+}
