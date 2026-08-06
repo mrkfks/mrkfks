@@ -1,0 +1,26 @@
+<div class="vscode-layout">
+  <app-title-bar />
+  
+  <div class="vscode-main-body">
+    <app-activity-bar (viewChange)="switchView($event)" [activeView]="activeView()" />
+    
+    <!-- Explorer View -->
+    @if (activeView() === 'explorer') {
+      <app-sidebar 
+        (fileSelect)="onFileSelect($event)" />
+    }
+    
+    <!-- Search View -->
+    @if (activeView() === 'search') {
+      <app-search-panel 
+        (fileSelect)="onFileSelect($event)" />
+    }
+    
+    <!-- EditorArea seçilen dosyayı gösterir -->
+    <app-editor 
+      [selectedFilePath]="selectedFilePath()"
+      [selectedFileContent]="selectedFileContent()" />
+  </div>
+
+  <app-status-bar />
+</div>

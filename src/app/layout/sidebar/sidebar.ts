@@ -1,9 +1,332 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, signal, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+
+export interface FileNode {
+  id: string;
+  name: string;
+  path: string;
+  type: 'file' | 'folder';
+  children?: FileNode[];
+  isOpen?: boolean;
+}
+
+export interface Comment {
+  id: string;
+  text: string;
+  category: 'bug' | 'feature' | 'improvement' | 'note';
+  timestamp: Date;
+  isEditing?: boolean;
+}
+
+export interface GitStatus {
+  branch: string;
+  staged: number;
+  unstaged: number;
+  untracked: number;
+}
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './sidebar.html',
   styleUrls: ['./sidebar.css']
 })
-export class SidebarComponent {}
+export class SidebarComponent implements OnInit {
+  @Output() fileSelect = new EventEmitter<string>();
+
+  private http = inject(HttpClient);
+
+  // Files Tab
+  fileTree = signal<FileNode[]>([]);
+  showNewItemInput = signal(false);
+  newItemName = signal('');
+  newItemType = signal<'file' | 'folder'>('file');
+  selectedParentId = signal<string | null>(null);
+  idCounter = 0;
+
+  // Tabs
+  activeTab = signal<'files' | 'source-control'>('files');
+
+  // Source Control Tab
+  comments = signal<Comment[]>([]);
+  newCommentText = signal('');
+  newCommentCategory = signal<'bug' | 'feature' | 'improvement' | 'note'>('note');
+  editingCommentId = signal<string | null>(null);
+  editingCommentText = signal('');
+  gitStatus = signal<GitStatus>({ branch: 'main', staged: 0, unstaged: 0, untracked: 0 });
+  isLoading = signal(false);
+
+  ngOnInit() {
+    this.loadFileTree();
+    this.loadComments();
+    this.loadGitStatus();
+  }
+
+  // FILES MANAGEMENT
+  loadFileTree() {
+    this.http.get<any>('/api/files').subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.fileTree.set(response.data || []);
+        }
+      },
+      error: (err) => {
+        console.error('Error loading file tree:', err);
+        this.fileTree.set([]);
+      }
+    });
+  }
+
+  toggleFolder(node: FileNode) {
+    if (node.type === 'folder') {
+      node.isOpen = !node.isOpen;
+      this.fileTree.set([...this.fileTree()]);
+    }
+  }
+
+  selectFile(node: FileNode) {
+    if (node.type === 'file') {
+      this.fileSelect.emit(node.path);
+    }
+  }
+
+  openNewItemInput(parentId: string | null) {
+    this.showNewItemInput.set(true);
+    this.selectedParentId.set(parentId);
+    this.newItemName.set('');
+    this.newItemType.set('file');
+  }
+
+  createNewItem() {
+    const name = this.newItemName().trim();
+    if (!name) return;
+
+    const newNode: FileNode = {
+      id: 'id_' + this.idCounter++,
+      name: name,
+      path: name,
+      type: this.newItemType(),
+      children: this.newItemType() === 'folder' ? [] : undefined,
+      isOpen: false
+    };
+
+    const currentTree = this.fileTree();
+    currentTree.push(newNode);
+    this.fileTree.set([...currentTree]);
+
+    this.cancelNewItem();
+  }
+
+  cancelNewItem() {
+    this.showNewItemInput.set(false);
+    this.newItemName.set('');
+    this.selectedParentId.set(null);
+  }
+
+  deleteItem(node: FileNode) {
+    const tree = this.fileTree().filter(item => item.id !== node.id);
+    this.fileTree.set(tree);
+  }
+
+  // SOURCE CONTROL MANAGEMENT
+  loadComments() {
+    try {
+      const stored = localStorage.getItem('comments');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        const comments = parsed.map((c: any) => ({
+          ...c,
+          timestamp: new Date(c.timestamp)
+        }));
+        this.comments.set(comments);
+      }
+    } catch (err) {
+      console.error('Error loading comments:', err);
+    }
+  }
+
+  saveComments() {
+    localStorage.setItem('comments', JSON.stringify(this.comments()));
+  }
+
+  addComment() {
+    const text = this.newCommentText().trim();
+    if (!text) return;
+
+    const newComment: Comment = {
+      id: 'comment_' + Date.now(),
+      text: text,
+      category: this.newCommentCategory(),
+      timestamp: new Date()
+    };
+
+    this.comments.set([newComment, ...this.comments()]);
+    this.saveComments();
+    this.newCommentText.set('');
+  }
+
+  startEditing(comment: Comment) {
+    this.editingCommentId.set(comment.id);
+    this.editingCommentText.set(comment.text);
+  }
+
+  saveEditing(id: string) {
+    const text = this.editingCommentText().trim();
+    if (!text) return;
+
+    const comments = this.comments().map(c => 
+      c.id === id ? { ...c, text: text } : c
+    );
+    this.comments.set(comments);
+    this.saveComments();
+    this.cancelEditing();
+  }
+
+  cancelEditing() {
+    this.editingCommentId.set(null);
+    this.editingCommentText.set('');
+  }
+
+  deleteComment(id: string) {
+    this.comments.set(this.comments().filter(c => c.id !== id));
+    this.saveComments();
+  }
+
+  getCategoryColor(category: string): string {
+    const colors: { [key: string]: string } = {
+      bug: '#f48771',
+      feature: '#4ec9b0',
+      improvement: '#d7ba7d',
+      note: '#9cdcfe'
+    };
+    return colors[category] || '#9cdcfe';
+  }
+
+  getCategoryLabel(category: string): string {
+    const labels: { [key: string]: string } = {
+      bug: 'Bug',
+      feature: 'Feature',
+      improvement: 'Improvement',
+      note: 'Note'
+    };
+    return labels[category] || 'Note';
+  }
+
+  formatTime(date: Date): string {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    return `${day}.${month}.${year} ${hours}:${minutes}`;
+  }
+
+  loadGitStatus() {
+    this.isLoading.set(true);
+    this.http.get<GitStatus>('/api/git-status').subscribe({
+      next: (data) => {
+        this.gitStatus.set(data);
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Failed to load git status:', err);
+        this.isLoading.set(false);
+      }
+    });
+  }
+
+  switchTab(tab: 'files' | 'source-control') {
+    this.activeTab.set(tab);
+  }
+}
+    if (node.type === 'file') {
+      this.fileSelect.emit(node.path);
+    }
+  }
+
+  openNewItemInput(parentId: string | null = null) {
+    this.showNewItemInput.set(true);
+    this.selectedParentId.set(parentId);
+    this.newItemName.set('');
+    this.newItemType.set('file');
+  }
+
+  cancelNewItem() {
+    this.showNewItemInput.set(false);
+    this.newItemName.set('');
+    this.selectedParentId.set(null);
+  }
+
+  createNewItem() {
+    const name = this.newItemName().trim();
+    if (!name) return;
+
+    // Validate file extension if it's a file
+    if (this.newItemType() === 'file') {
+      if (!name.endsWith('.md')) {
+        alert('Sadece .md formatında dosya ekleyebilirsiniz!');
+        return;
+      }
+    }
+
+    const parentPath = this.selectedParentId() ? this.getPathFromId(this.fileTree(), this.selectedParentId()!) : '';
+
+    this.http.post<any>('/api/files', {
+      name,
+      type: this.newItemType(),
+      parentPath
+    }).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.fileTree.set(response.data || []);
+          this.cancelNewItem();
+        }
+      },
+      error: (err) => {
+        console.error('Error creating file/folder:', err);
+        alert('Dosya/klasör oluşturulamadı');
+      }
+    });
+  }
+
+  deleteItem(node: FileNode) {
+    // Path kontrolü yap
+    if (!node.path) {
+      alert('Dosya yolu tanımlanmamış. Sayfayı yenileyin ve tekrar deneyin.');
+      console.error('Missing path for node:', node);
+      return;
+    }
+
+    if (!confirm(`"${node.name}" silinsin mi?`)) return;
+
+    this.http.delete<any>(`/api/files/${encodeURIComponent(node.path)}`).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.fileTree.set(response.data || []);
+        }
+      },
+      error: (err) => {
+        console.error('Error deleting file/folder:', err);
+        const errorMessage = err.error?.message || err.statusText || 'Bilinmeyen hata';
+        alert(`Dosya/klasör silinemedi: ${errorMessage}`);
+      }
+    });
+  }
+
+  private getPathFromId(nodes: FileNode[], id: string): string {
+    for (const node of nodes) {
+      if (node.id === id) {
+        return node.path;
+      }
+      if (node.children) {
+        const found = this.getPathFromId(node.children, id);
+        if (found) return found;
+      }
+    }
+    return '';
+  }
+}

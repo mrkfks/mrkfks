@@ -1,20 +1,58 @@
-<div class="editor-area">
-  <!-- Tabs Bar -->
-  <div class="tabs-bar">
-    <div class="tab active">
-      <span class="tab-icon">TS</span> about.ts <span class="close-tab">×</span>
-    </div>
-    <div class="tab">
-      <span class="tab-icon json">JSON</span> projects.json <span class="close-tab">×</span>
+<div class="editor-container">
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <span>{{ selectedFilePath || 'Welcome' }}</span>
+    <div class="toolbar-actions">
+      <button (click)="isEditMode = !isEditMode" class="toggle-btn">
+        {{ isEditMode ? '👁️ Preview' : '✏️ Edit' }}
+      </button>
+      <button *ngIf="isEditMode" (click)="saveFile()" class="save-btn">💾 Kaydet</button>
     </div>
   </div>
 
-  <!-- Breadcrumb -->
-  <div class="breadcrumb">portfolio &gt; src &gt; <span class="current">about.ts</span></div>
-
-  <!-- Main Code/Content Body -->
-  <div class="code-container">
-    <!-- Satır Numaraları ve İçerik Buraya Gelecek -->
-    <p style="color: #6a9955">// Angular ile yazılmış VS Code temalı portfolyo</p>
-  </div>
+  <!-- Edit Mode -->
+  @if (isEditMode) {
+    <div class="edit-pane">
+      <!-- Formatting Toolbar -->
+      <div class="formatting-toolbar">
+        <button class="format-btn" (click)="insertFormat('bold')" title="Kalın (Ctrl+B)"><strong>B</strong></button>
+        <button class="format-btn" (click)="insertFormat('italic')" title="İtalik (Ctrl+I)"><em>I</em></button>
+        <button class="format-btn" (click)="insertFormat('h1')" title="Başlık 1"># H1</button>
+        <button class="format-btn" (click)="insertFormat('h2')" title="Başlık 2">## H2</button>
+        <button class="format-btn" (click)="insertFormat('h3')" title="Başlık 3">### H3</button>
+        <div class="divider"></div>
+        <button class="format-btn" (click)="insertFormat('ul')" title="Sırasız Liste">• Liste</button>
+        <button class="format-btn" (click)="insertFormat('ol')" title="Sıralı Liste">1. Liste</button>
+        <button class="format-btn" (click)="insertFormat('link')" title="Link">🔗 Link</button>
+        <button class="format-btn" (click)="insertFormat('code')" title="Kod Bloğu">{{ '{' }}<>code</button>
+        <button class="format-btn" (click)="insertFormat('quote')" title="Alıntı">> Alıntı</button>
+        <div class="divider"></div>
+        <button class="format-btn" (click)="insertFormat('align-left')" title="Sola Yasla">⬅ Sol</button>
+        <button class="format-btn" (click)="insertFormat('align-center')" title="Ortalama">↔ Orta</button>
+        <button class="format-btn" (click)="insertFormat('align-right')" title="Sağa Yasla">➡ Sağ</button>
+        <div class="divider"></div>
+        <button class="format-btn" (click)="insertFormat('line')" title="Yatay Çizgi">━━━</button>
+        <button class="format-btn" (click)="insertFormat('table')" title="Tablo">📊 Tablo</button>
+        <button class="format-btn" (click)="openImageUpload()" title="Fotoğraf Ekle">📷 Image</button>
+        <input 
+          #imageInput 
+          type="file" 
+          accept="image/*" 
+          style="display: none"
+          (change)="onImageSelected($event)">
+      </div>
+      
+      <textarea 
+        #editorTextarea
+        [ngModel]="markdownContent()" 
+        (ngModelChange)="markdownContent.set($event)" 
+        class="code-input" 
+        placeholder="Dosya içeriğini düzenle..."
+        (keydown)="handleKeydown($event)">
+      </textarea>
+    </div>
+  } @else {
+    <!-- Preview Mode -->
+    <div class="preview-pane markdown-body" [innerHTML]="getSafeHtml()"></div>
+  }
 </div>

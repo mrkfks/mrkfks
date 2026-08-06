@@ -1,8 +1,26 @@
 <div class="activitybar">
       <div class="top-icons">
-        <button class="icon-btn active" title="Explorer">📄</button>
-        <button class="icon-btn" title="Search">🔍</button>
-        <button class="icon-btn" title="Source Control">🌿</button>
+        <button 
+          class="icon-btn" 
+          [class.active]="activeView === 'explorer'"
+          (click)="selectView('explorer')"
+          title="Explorer">
+          📄
+        </button>
+        <button 
+          class="icon-btn" 
+          [class.active]="activeView === 'search'"
+          (click)="selectView('search')"
+          title="Search">
+          🔍
+        </button>
+        <button 
+          class="icon-btn" 
+          [class.active]="activeView === 'source-control'"
+          (click)="selectView('source-control')"
+          title="Source Control">
+          🌿
+        </button>
       </div>
       <div class="bottom-icons">
         <button class="icon-btn" title="Settings">⚙️</button>

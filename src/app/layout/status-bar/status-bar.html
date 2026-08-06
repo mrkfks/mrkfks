@@ -1,11 +1,19 @@
-<div class="statusbar">
-  <div class="left">
-    <span>🌿 main*</span>
-    <span>0 ⊗ 0 ⚠</span>
+<div class="status-bar">
+  <!-- Sol Kısım: VS Code Standart Metrikleri & Performans -->
+  <div class="left-items">
+    <span class="item branch">🌿 main*</span>
+    <span class="item errors">0 ⊗ 0 ⚠</span>
+    @if (loadTime()) {
+      <span class="item load-time">{{ loadTime() }}</span>
+    }
   </div>
-  <div class="right">
-    <span>Ln 1, Col 1</span>
-    <span>UTF-8</span>
-    <span>TypeScript</span>
+
+  <!-- Sağ Kısım: Ziyaretçi ve Sistem Bilgileri -->
+  <div class="right-items">
+    <span class="item badge">{{ visitorLocation() }}</span>
+    <span class="item badge">{{ systemInfo() }}</span>
+    <span class="item">{{ screenRes() }}</span>
+    <span class="item">UTF-8</span>
+    <span class="item">TypeScript</span>
   </div>
 </div>

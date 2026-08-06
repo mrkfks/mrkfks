@@ -1,0 +1,102 @@
+<div class="sidebar search-panel">
+  <div class="search-header">
+    <span>SEARCH</span>
+  </div>
+
+  <div class="search-box">
+    <div class="search-input-wrapper">
+      <input 
+        type="text" 
+        class="search-input"
+        placeholder="🔍 Dosya ve içerik ara..."
+        [value]="searchQuery()"
+        (input)="onSearchChange($event.target.value)"
+        autofocus>
+      @if (searchQuery().trim()) {
+        <button 
+          class="clear-btn"
+          (click)="clearSearch()"
+          title="Clear search">
+          ✕
+        </button>
+      }
+    </div>
+    
+    <!-- Search Tabs -->
+    <div class="search-tabs">
+      <button 
+        class="tab-btn"
+        [class.active]="searchTab() === 'all'"
+        (click)="searchTab.set('all')">
+        Tümü
+      </button>
+      <button 
+        class="tab-btn"
+        [class.active]="searchTab() === 'name'"
+        (click)="searchTab.set('name')">
+        Adı
+      </button>
+      <button 
+        class="tab-btn"
+        [class.active]="searchTab() === 'content'"
+        (click)="searchTab.set('content')">
+        İçerik
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  @if (isLoading()) {
+    <div class="loading">
+      <span>Aranıyor...</span>
+    </div>
+  }
+
+  <!-- Search Results -->
+  @if (searchQuery().trim() && !isLoading()) {
+    <div class="search-results">
+      @if (searchResults().byName.length === 0 && searchResults().byContent.length === 0) {
+        <div class="no-results">
+          <span>Sonuç bulunamadı</span>
+        </div>
+      } @else {
+        <!-- Filename Results -->
+        @if ((searchTab() === 'all' || searchTab() === 'name') && searchResults().byName.length > 0) {
+          <div class="result-group">
+            <div class="result-header">📄 Dosya Adında ({{ searchResults().byName.length }})</div>
+            @for (result of searchResults().byName; track result.path) {
+              <div class="result-item" (click)="selectSearchResult(result.path)">
+                <span class="result-icon">{{ result.type === 'folder' ? '📁' : '📄' }}</span>
+                <span class="result-name">{{ result.name }}</span>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Content Results -->
+        @if ((searchTab() === 'all' || searchTab() === 'content') && searchResults().byContent.length > 0) {
+          <div class="result-group">
+            <div class="result-header">📝 İçerik İçinde ({{ searchResults().byContent.length }})</div>
+            @for (result of searchResults().byContent; track result.path) {
+              <div class="result-item" (click)="selectSearchResult(result.path)">
+                <span class="result-icon">📄</span>
+                <span class="result-name">{{ result.name }}</span>
+                @if (result.matchCount) {
+                  <span class="match-count">({{ result.matchCount }} eşleşme)</span>
+                }
+                @if (result.preview) {
+                  <div class="result-preview">{{ result.preview }}</div>
+                }
+              </div>
+            }
+          </div>
+        }
+      }
+    </div>
+  } @else if (searchQuery().trim() === '' && !isLoading()) {
+    <div class="empty-state">
+      <div class="empty-icon">🔍</div>
+      <div class="empty-text">Dosya adı veya içerik yazarak ara</div>
+    </div>
+  }
+</div>

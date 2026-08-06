@@ -1,0 +1,108 @@
+<div class="source-control-container">
+  <!-- Sol Taraf: Yorum Yazma Formu -->
+  <div class="left-panel">
+    <div class="sc-header">
+      <span>SOURCE CONTROL</span>
+      <button class="refresh-btn" (click)="refreshStatus()" title="Refresh">🔄</button>
+    </div>
+
+    <!-- Comment Input Form -->
+    <div class="comment-form">
+      <div class="section-title">Add Comment</div>
+      
+      <textarea 
+        class="comment-input"
+        [(ngModel)]="newCommentText"
+        placeholder="Yorum yaz..."
+        rows="4">
+      </textarea>
+
+      <select class="category-select" [(ngModel)]="newCommentCategory">
+        <option value="note">📝 Note</option>
+        <option value="bug">🐛 Bug</option>
+        <option value="feature">✨ Feature</option>
+        <option value="improvement">🔧 Improvement</option>
+      </select>
+
+      <button 
+        class="submit-btn"
+        (click)="addComment()"
+        [disabled]="!newCommentText().trim()">
+        Send Comment
+      </button>
+    </div>
+  </div>
+
+  <!-- Sağ Taraf: Yorum Listesi (Editor Alanında Gösterilecek) -->
+  <div class="right-panel">
+    <div class="comments-header">
+      <span class="comments-title">💬 Comments ({{ comments().length }})</span>
+    </div>
+
+    <div class="comments-list">
+      @if (comments().length === 0) {
+        <div class="no-comments">
+          <div class="empty-icon">🗨️</div>
+          <div class="empty-text">Yorum bulunmamaktadır</div>
+        </div>
+      } @else {
+        @for (comment of comments(); track comment.id) {
+          <div class="comment-card" [style.border-left-color]="getCategoryColor(comment.category)">
+            <!-- Comment Header -->
+            <div class="comment-header">
+              <div class="comment-meta">
+                <span class="comment-category" [style.color]="getCategoryColor(comment.category)">
+                  {{ getCategoryLabel(comment.category) }}
+                </span>
+                <span class="comment-time">{{ formatTime(comment.timestamp) }}</span>
+              </div>
+              <div class="comment-actions">
+                @if (!editingCommentId() || editingCommentId() !== comment.id) {
+                  <button 
+                    class="edit-btn"
+                    (click)="startEditing(comment)"
+                    title="Edit">
+                    ✎
+                  </button>
+                }
+                <button 
+                  class="delete-btn"
+                  (click)="deleteComment(comment.id)"
+                  title="Delete">
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            <!-- Comment Body -->
+            @if (editingCommentId() === comment.id) {
+              <div class="comment-edit">
+                <textarea 
+                  class="edit-input"
+                  [(ngModel)]="editingCommentText"
+                  rows="3">
+                </textarea>
+                <div class="edit-actions">
+                  <button 
+                    class="save-btn"
+                    (click)="saveEditing(comment.id)">
+                    Save
+                  </button>
+                  <button 
+                    class="cancel-btn"
+                    (click)="cancelEditing()">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            } @else {
+              <div class="comment-body">
+                {{ comment.text }}
+              </div>
+            }
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>
