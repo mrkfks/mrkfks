@@ -44,8 +44,12 @@ Full-Stack Software Developer specializing in enterprise web applications, distr
 ### 📈 GitHub Statistics
 
 <p align="center">
-  <img height="160em" src="https://github-readme-streak-stats.herokuapp.com/?user=mrkfks&theme=tokyonight&hide_border=true" />
-  <img height="160em" src="https://github-readme-activity-graph.vercel.app/graph?username=mrkfks&theme=tokyo-night&hide_border=true" />
+  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=mrkfks&show_icons=true&theme=tokyonight&hide_border=true" alt="Ömer Kafkas's GitHub Stats" />
+  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=mrkfks&layout=compact&theme=tokyonight&hide_border=true" alt="Most Used Languages" />
+</p>
+
+<p align="center">
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=mrkfks&theme=tokyo-night&hide_border=true" alt="Contribution Graph" />
 </p>
 
 ---
