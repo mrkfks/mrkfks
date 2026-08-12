@@ -29,43 +29,6 @@ Full-Stack Software Developer specializing in enterprise web applications, distr
 
 ---
 
-### 🖼️ Certificate Gallery
-
-<details>
-<summary><b>🔍 Click to View Certificate Documents & QR Verification</b></summary>
-<br />
-
-<p align="center">
-  <a href="https://www.btakademi.com/Certificates?Id=802192&Name=Ömer-Kafkas">
-    <img src="https://www.btakademi.com/Certificates?Id=802192&Name=Ömer-Kafkas" width="45%" alt="Software Engineering Certificate" />
-  </a>
-  <a href="https://www.btakademi.com/Certificates?Id=514244&Name=Ömer-Kafkas">
-    <img src="https://www.btakademi.com/Certificates?Id=514244&Name=Ömer-Kafkas" width="45%" alt="SQL Server Certificate" />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://www.btakademi.com/Certificates?Id=669227&Name=Ömer-Kafkas">
-    <img src="https://www.btakademi.com/Certificates?Id=669227&Name=Ömer-Kafkas" width="45%" alt="Agile Scrum Certificate" />
-  </a>
-  <a href="https://www.btakademi.com/Certificates?Id=287601&Name=Ömer-Kafkas">
-    <img src="https://www.btakademi.com/Certificates?Id=287601&Name=Ömer-Kafkas" width="45%" alt="Systems Analysis Certificate" />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://www.btakademi.com/Certificates?Id=970536&Name=Ömer-Kafkas">
-    <img src="https://www.btakademi.com/Certificates?Id=970536&Name=Ömer-Kafkas" width="45%" alt="Coaching Certificate" />
-  </a>
-  <a href="https://www.btakademi.com/Certificates?Id=678441&Name=Ömer-Kafkas">
-    <img src="https://www.btakademi.com/Certificates?Id=678441&Name=Ömer-Kafkas" width="45%" alt="Excel Certificate" />
-  </a>
-</p>
-
-</details>
-
----
-
 ### 🚀 Featured Repositories & Projects
 
 - **[ECommerce](https://github.com/mrkfks/ECommerce):** Full-stack e-commerce solution built with modern web practices.
