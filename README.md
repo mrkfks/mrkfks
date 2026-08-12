@@ -6,12 +6,12 @@ Full-Stack Software Developer specializing in enterprise web applications, distr
 
 ### 💻 Tech Stack & Core Competencies
 
-- **Languages:** C#, TypeScript, JavaScript, SQL, HTML5, CSS3[cite: 1]
-- **Backend & APIs:** .NET / .NET Core, ASP.NET Core MVC, Web API, RESTful APIs, Node.js, Express.js[cite: 1]
-- **Frontend:** Angular, TypeScript, JavaScript, jQuery, HTML5/CSS3, Responsive Web Design[cite: 1]
-- **Databases & ORM:** MS SQL Server (T-SQL), MongoDB (NoSQL), Entity Framework Core[cite: 1]
-- **Methodologies & Analysis:** Agile / Scrum, Business & Systems Analysis, System Design, Object-Oriented Programming (OOP)[cite: 1]
-- **Environment & Developer Tools:** Fedora Linux (COSMIC), VS Code, Git, GitHub Actions[cite: 1]
+- **Languages:** C#, TypeScript, JavaScript, SQL, HTML5, CSS3
+- **Backend & APIs:** .NET / .NET Core, ASP.NET Core MVC, Web API, RESTful APIs, Node.js, Express.js
+- **Frontend:** Angular, TypeScript, JavaScript, jQuery, HTML5/CSS3, Responsive Web Design
+- **Databases & ORM:** MS SQL Server (T-SQL), MongoDB (NoSQL), Entity Framework Core
+- **Methodologies & Analysis:** Agile / Scrum, Business & Systems Analysis, System Design, Object-Oriented Programming (OOP)
+- **Environment & Developer Tools:** Fedora Linux (COSMIC), VS Code, Git, GitHub Actions
 
 ---
 
@@ -19,13 +19,13 @@ Full-Stack Software Developer specializing in enterprise web applications, distr
 
 | Certificate Program | Skills Covered | Duration | Credential & Verification Link |
 | :--- | :--- | :--- | :--- |
-| **Agile Project Management & Scrum** | `Scrum` `Agile Framework` `Sprint Planning` `Backlog`[cite: 1] | 12 Hours | [🔍 Verify Certificate (ID: 802192)](https://www.btakademi.com/Certificates?Id=802192&Name=Ömer-Kafkas) |
-| **Microsoft Excel (Basic, Intermediate & Advanced)** | `Data Analysis` `Advanced Excel` `Reporting` `Formulas`[cite: 1] | 24 Hours | [🔍 Verify Certificate (ID: 678441)](https://www.btakademi.com/Certificates?Id=678441&Name=Ömer-Kafkas) |
-| **Database Querying with SQL Server 2019** | `T-SQL` `MS SQL Server` `Relational DB` `Indexing`[cite: 1] | 40 Hours | [🔍 Verify Certificate (ID: 514244)](https://www.btakademi.com/Certificates?Id=514244&Name=Ömer-Kafkas) |
-| **Software Engineering Program** | `C#` `.NET Core` `EF Core` `Angular` `Node.js` `SQL`[cite: 1] | 500 Hours | [🔍 Verify Certificate (ID: 669227)](https://www.btakademi.com/Certificates?Id=669227&Name=Ömer-Kafkas) |
-| **Business & Systems Analysis** | `System Analysis` `Requirement Gathering` `UML` `Use Cases`[cite: 1] | 12 Hours | [🔍 Verify Certificate (ID: 287601)](https://www.btakademi.com/Certificates?Id=287601&Name=Ömer-Kafkas) |
-| **CV Writing, Interview Techniques & Coaching** | `Interview Preparation` `Career Coaching` `Professional CV`[cite: 1] | 16 Hours | [🔍 Verify Certificate (ID: 970536)](https://www.btakademi.com/Certificates?Id=970536&Name=Ömer-Kafkas) |
-| **Software Engineering Track Credential** | `Full-Stack Architecture` `System Design` `Software Lifecycle`[cite: 1] | 500 Hours | [🔍 Verify Certificate (ID: 64461841)](https://www.btakademi.com/Certificates?Id=64461841&Name=Ömer-Kafkas) |
+| **Software Engineering Program: From Beginner to Professional** | `C#` `.NET Core` `EF Core` `Angular` `Node.js` `SQL` | 500 Hours | [🔍 Verify Certificate](https://www.btakademi.com/Certificates?Id=669227&Name=Ömer-Kafkas) |
+| **Database Query with SQL Server 2019** | `T-SQL` `MS SQL Server` `Relational DB` `Indexing` | 40 Hours | [🔍 Verify Certificate](https://www.btakademi.com/Certificates?Id=514244&Name=Ömer-Kafkas) |
+| **Microsoft Excel Basic & Intermediate & Advanced** | `Data Analysis` `Advanced Excel` `Reporting` `Formulas` | 24 Hours | [🔍 Verify Certificate](https://www.btakademi.com/Certificates?Id=678441&Name=Ömer-Kafkas) |
+| **Agile Project Management & Scrum** | `Scrum` `Agile Framework` `Sprint Planning` `Backlog` | 12 Hours | [🔍 Verify Certificate](https://www.btakademi.com/Certificates?Id=802192&Name=Ömer-Kafkas) |
+| **Introduction to Business and Systems Analysis** | `System Analysis` `Requirement Gathering` `UML` `Use Cases` | 12 Hours | [🔍 Verify Certificate](https://www.btakademi.com/Certificates?Id=287601&Name=Ömer-Kafkas) |
+| **CV Writing & Interview Techniques** | `CV Writing` `Interview Techniques` `Career Planning` | 8 Hours | [🔍 Verify Certificate](https://www.btakademi.com/Certificates?Id=970536&Name=Ömer-Kafkas) |
+| **Interview Coaching** | `Interview Preparation` `Professional Coaching` `Mock Interviews` | 8 Hours | [🔍 Verify Certificate](https://www.btakademi.com/Certificates?Id=64461841&Name=Ömer-Kafkas) |
 
 ---
 
@@ -36,8 +36,8 @@ Full-Stack Software Developer specializing in enterprise web applications, distr
 - **[Library-Management-System](https://github.com/mrkfks/Library-Management-System):** Database-driven library & resource management platform.
 - **[Fitness_Tracker](https://github.com/mrkfks/Fitness_Tracker):** Application designed for tracking workouts, health metrics, and user goals.
 - **[NewsHub](https://github.com/mrkfks/NewsHub):** Dynamic content and news aggregator platform.
-- **[MongoDB_Urun_Katalog_Uygulamasi](https://github.com/mrkfks/MongoDB_Urun_Katalog_Uygulamasi):** NoSQL product catalog management system integrated with MongoDB[cite: 1].
-- **[Frontend_Kisisel_Tanitim_Projesi](https://github.com/mrkfks/Frontend_Kisisel_Tanitim_Projesi):** Personal portfolio and showcase application built using modern frontend tools[cite: 1].
+- **[MongoDB_Urun_Katalog_Uygulamasi](https://github.com/mrkfks/MongoDB_Urun_Katalog_Uygulamasi):** NoSQL product catalog management system integrated with MongoDB.
+- **[Frontend_Kisisel_Tanitim_Projesi](https://github.com/mrkfks/Frontend_Kisisel_Tanitim_Projesi):** Personal portfolio and showcase application built using modern frontend tools.
 
 ---
 
