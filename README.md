@@ -15,6 +15,18 @@ Full-Stack Software Developer specializing in enterprise web applications, distr
 
 ---
 
+### 🎓 Education
+
+**Anadolu University** — *Bachelor of Science (B.S.) in Management Information Systems*[cite: 1]
+- **Graduated:** August 2025[cite: 1]
+- **Key Coursework:** Algorithms & Programming, Database Systems, Database Programming, System Analysis & Design, Information Security & Network Management, Data Mining, Decision Support Systems[cite: 1]
+
+**Ondokuz Mayıs University** — *Bachelor of Science (B.S.) in Materials Science and Engineering*[cite: 2]
+- **Graduated:** February 2016[cite: 2]
+- **Key Coursework:** Computer Programming, Linear Algebra & Numerical Methods, Differential Equations, Engineering Economics, Quality Control, Transport Phenomena[cite: 2]
+
+---
+
 ### 📜 Certifications & Verified Credentials (BT Akademi)
 
 | Certificate Program | Skills Covered | Duration | Credential & Verification Link |
