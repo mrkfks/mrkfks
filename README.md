@@ -1,59 +1,40 @@
-# Mrkfks
+# Hi there, I'm Ömer Kafkas 👋
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.19.
+Software Developer
 
-## Development server
+---
 
-To start a local development server, run:
+### 💻 Tech Stack & Tools
 
-```bash
-ng serve
-```
+![.NET](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
+![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white)
+![SQL](https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Fedora](https://img.shields.io/badge/Fedora-51A2DA?style=for-the-badge&logo=fedora&logoColor=white)
+![VS Code](https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+### 🔭 Current Focus & Projects
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- 🚚 **TransitHub / FreightOS:** Digital freight transport operating system & logistics corridor matching platform.
+- ⚡ **Full-Stack Development:** Scalable applications using .NET, Angular, and SQL/NoSQL architectures.
+- 🛠️ **Dev Workflows:** Linux workstation optimization (Fedora COSMIC) and AI-assisted development tools.
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 📊 GitHub Stats
 
-```bash
-ng generate --help
-```
+<p align="center">
+  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=mrkfks&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true"/>
+  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=mrkfks&layout=compact&theme=tokyonight&hide=html,css"/>
+</p>
 
-## Building
+---
 
-To build the project run:
+### 📫 Connect with Me
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:your.email@example.com)
