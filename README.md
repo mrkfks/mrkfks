@@ -19,7 +19,6 @@ Software Developer
 
 ### 🔭 Current Focus & Projects
 
-- 🚚 **TransitHub / FreightOS:** Digital freight transport operating system & logistics corridor matching platform.
 - ⚡ **Full-Stack Development:** Scalable applications using .NET, Angular, and SQL/NoSQL architectures.
 - 🛠️ **Dev Workflows:** Linux workstation optimization (Fedora COSMIC) and AI-assisted development tools.
 
