@@ -19,9 +19,9 @@ Full-Stack Software Developer specializing in enterprise web applications, distr
 
 | Certificate Program | Skills Covered | Duration | Credential & Verification Link |
 | :--- | :--- | :--- | :--- |
-| **Software Engineering Program** | `C#` `.NET Core` `EF Core` `Angular` `Node.js` `SQL`[cite: 1] | 500 Hours | [🔍 Verify Certificate (ID: 802192)](https://www.btakademi.com/Certificates?Id=802192&Name=Ömer-Kafkas) |
+| **Agile Project Management & Scrum** | `Scrum` `Agile Framework` `Sprint Planning` `Backlog`[cite: 1] | 12 Hours | [🔍 Verify Certificate (ID: 802192)](https://www.btakademi.com/Certificates?Id=802192&Name=Ömer-Kafkas) |
 | **Database Querying with SQL Server 2019** | `T-SQL` `MS SQL Server` `Relational DB` `Indexing`[cite: 1] | 40 Hours | [🔍 Verify Certificate (ID: 514244)](https://www.btakademi.com/Certificates?Id=514244&Name=Ömer-Kafkas) |
-| **Agile Project Management & Scrum** | `Scrum` `Agile Framework` `Sprint Planning` `Backlog`[cite: 1] | 12 Hours | [🔍 Verify Certificate (ID: 669227)](https://www.btakademi.com/Certificates?Id=669227&Name=Ömer-Kafkas) |
+| **Software Engineering Program** | `C#` `.NET Core` `EF Core` `Angular` `Node.js` `SQL`[cite: 1] | 500 Hours | [🔍 Verify Certificate (ID: 669227)](https://www.btakademi.com/Certificates?Id=669227&Name=Ömer-Kafkas) |
 | **Business & Systems Analysis** | `System Analysis` `Requirement Gathering` `UML` `Use Cases`[cite: 1] | 12 Hours | [🔍 Verify Certificate (ID: 287601)](https://www.btakademi.com/Certificates?Id=287601&Name=Ömer-Kafkas) |
 | **CV Writing, Interview Techniques & Coaching** | `Interview Preparation` `Career Coaching` `Professional CV`[cite: 1] | 16 Hours | [🔍 Verify Certificate (ID: 970536)](https://www.btakademi.com/Certificates?Id=970536&Name=Ömer-Kafkas) |
 | **Microsoft Excel (Basic, Intermediate & Advanced)** | `Data Analysis` `Advanced Excel` `Reporting` `Formulas`[cite: 1] | 24 Hours | [🔍 Verify Certificate (ID: 678441)](https://www.btakademi.com/Certificates?Id=678441&Name=Ömer-Kafkas) |
