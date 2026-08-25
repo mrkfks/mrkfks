@@ -51,16 +51,24 @@ export class SourceControlComponent {
 
   loadGitStatus() {
     this.isLoading.set(true);
-    this.http.get<GitStatus>('/api/git-status').subscribe({
-      next: (status) => {
-        this.gitStatus.set(status);
-        this.isLoading.set(false);
-      },
-      error: (err) => {
-        console.error('Failed to load git status:', err);
-        this.isLoading.set(false);
-      }
+    // GitHub Pages has no backend - using empty git status
+    // this.http.get<GitStatus>('/api/git-status').subscribe({
+    //   next: (status) => {
+    //     this.gitStatus.set(status);
+    //     this.isLoading.set(false);
+    //   },
+    //   error: (err) => {
+    //     console.error('Failed to load git status:', err);
+    //     this.isLoading.set(false);
+    //   }
+    // });
+    this.gitStatus.set({
+      branch: 'main',
+      staged: 0,
+      unstaged: 0,
+      untracked: 0
     });
+    this.isLoading.set(false);
   }
 
   loadComments() {

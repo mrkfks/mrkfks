@@ -67,17 +67,19 @@ export class SidebarComponent implements OnInit {
 
   // FILES MANAGEMENT
   loadFileTree() {
-    this.http.get<any>('/api/files').subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.fileTree.set(response.data || []);
-        }
-      },
-      error: (err) => {
-        console.error('Error loading file tree:', err);
-        this.fileTree.set([]);
-      }
-    });
+    // GitHub Pages has no backend - using empty state
+    // this.http.get<any>('/api/files').subscribe({
+    //   next: (response) => {
+    //     if (response.success) {
+    //       this.fileTree.set(response.data || []);
+    //     }
+    //   },
+    //   error: (err) => {
+    //     console.error('Error loading file tree:', err);
+    //     this.fileTree.set([]);
+    //   }
+    // });
+    this.fileTree.set([]);
   }
 
   toggleFolder(node: FileNode) {
@@ -193,17 +195,25 @@ export class SidebarComponent implements OnInit {
   loadGitStatus() {
     if (!this.isBrowser) return;
     
+    // GitHub Pages has no backend - using empty git status
     this.isLoading.set(true);
-    this.http.get<GitStatus>('/api/git-status').subscribe({
-      next: (data) => {
-        this.gitStatus.set(data);
-        this.isLoading.set(false);
-      },
-      error: (err) => {
-        console.error('Failed to load git status:', err);
-        this.isLoading.set(false);
-      }
+    // this.http.get<GitStatus>('/api/git-status').subscribe({
+    //   next: (data) => {
+    //     this.gitStatus.set(data);
+    //     this.isLoading.set(false);
+    //   },
+    //   error: (err) => {
+    //     console.error('Failed to load git status:', err);
+    //     this.isLoading.set(false);
+    //   }
+    // });
+    this.gitStatus.set({
+      branch: 'main',
+      staged: 0,
+      unstaged: 0,
+      untracked: 0
     });
+    this.isLoading.set(false);
   }
 
   switchTab(tab: 'files' | 'source-control') {
