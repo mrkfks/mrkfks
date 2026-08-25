@@ -1,0 +1,85 @@
+<div class="chat-container">
+  <!-- Chat ID Setup Modal -->
+  @if (showChatIdPrompt) {
+    <div class="chat-id-modal">
+      <div class="modal-content">
+        <h3>Setup Telegram Chat</h3>
+        <p>1. Open Telegram bot: <strong>Search for your bot and type /start</strong></p>
+        <p>2. Paste your Chat ID below:</p>
+        <input
+          type="text"
+          class="chat-id-input"
+          [(ngModel)]="inputChatId"
+          placeholder="Enter Chat ID (numeric)"
+          (keyup.enter)="setChatId()"
+        />
+        <button class="setup-btn" (click)="setChatId()" [disabled]="!inputChatId.trim()">
+          Connect Telegram
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Header -->
+  <div class="chat-header">
+    <span class="chat-title">💬 Telegram Chat</span>
+    @if (chatId) {
+      <span class="chat-id-badge">{{ chatId }}</span>
+    }
+  </div>
+
+  <!-- Messages Container -->
+  <div class="messages-container" #messagesContainer>
+    @if (messages.length === 0) {
+      <div class="empty-chat">
+        <div class="empty-icon">🤖</div>
+        <div class="empty-text">No messages yet</div>
+        <div class="empty-hint">Start a conversation with your Telegram bot</div>
+      </div>
+    } @else {
+      @for (message of messages; track message.id) {
+        <div class="message" [class.user-message]="message.sender === 'user'" [class.bot-message]="message.sender === 'bot'">
+          <div class="message-avatar">
+            {{ message.sender === 'user' ? '👤' : '🤖' }}
+          </div>
+          <div class="message-content">
+            <div class="message-text">{{ message.text }}</div>
+            <div class="message-time">{{ message.timestamp | date: 'short' }}</div>
+          </div>
+        </div>
+      }
+    }
+
+    @if (isLoading) {
+      <div class="message bot-message typing">
+        <div class="message-avatar">🤖</div>
+        <div class="message-content">
+          <div class="typing-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Input Area -->
+  <div class="input-container">
+    <textarea
+      class="message-input"
+      [(ngModel)]="messageText"
+      (keypress)="onKeyPress($event)"
+      [disabled]="!chatId || isLoading"
+      placeholder="Type a message (Shift+Enter for new line, Enter to send)"
+      rows="2"
+    ></textarea>
+    <button
+      class="send-btn"
+      (click)="sendMessage()"
+      [disabled]="!messageText.trim() || !chatId || isLoading"
+    >
+      {{ isLoading ? '⏳' : '📤' }}
+    </button>
+  </div>
+</div>
