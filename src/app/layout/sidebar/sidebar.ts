@@ -44,11 +44,6 @@ export class SidebarComponent implements OnInit {
 
   // Files Tab
   fileTree = signal<FileNode[]>([]);
-  showNewItemInput = signal(false);
-  newItemName = signal('');
-  newItemType = signal<'file' | 'folder'>('file');
-  selectedParentId = signal<string | null>(null);
-  idCounter = 0;
 
   // Tabs
   activeTab = signal<'files' | 'source-control'>('files');
@@ -96,44 +91,6 @@ export class SidebarComponent implements OnInit {
     if (node.type === 'file') {
       this.fileSelect.emit(node.path);
     }
-  }
-
-  openNewItemInput(parentId: string | null) {
-    this.showNewItemInput.set(true);
-    this.selectedParentId.set(parentId);
-    this.newItemName.set('');
-    this.newItemType.set('file');
-  }
-
-  createNewItem() {
-    const name = this.newItemName().trim();
-    if (!name) return;
-
-    const newNode: FileNode = {
-      id: 'id_' + this.idCounter++,
-      name: name,
-      path: name,
-      type: this.newItemType(),
-      children: this.newItemType() === 'folder' ? [] : undefined,
-      isOpen: false
-    };
-
-    const currentTree = this.fileTree();
-    currentTree.push(newNode);
-    this.fileTree.set([...currentTree]);
-
-    this.cancelNewItem();
-  }
-
-  cancelNewItem() {
-    this.showNewItemInput.set(false);
-    this.newItemName.set('');
-    this.selectedParentId.set(null);
-  }
-
-  deleteItem(node: FileNode) {
-    const tree = this.fileTree().filter(item => item.id !== node.id);
-    this.fileTree.set(tree);
   }
 
   // SOURCE CONTROL MANAGEMENT
