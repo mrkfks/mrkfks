@@ -12,7 +12,7 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Build the Angular application with SSR
+# Build the Angular application (static output mode)
 RUN npm run build
 
 # Stage 2: Production stage
@@ -29,6 +29,9 @@ RUN npm ci --only=production
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
 
+# Copy server app file
+COPY app.js .
+
 # Expose port
 EXPOSE 4200
 
@@ -36,5 +39,5 @@ EXPOSE 4200
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
     CMD node -e "require('http').get('http://localhost:4200', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
 
-# Start the SSR server
-CMD ["npm", "run", "serve:ssr:mrkfks"]
+# Start with static server
+CMD ["node", "app.js"]

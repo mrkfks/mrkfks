@@ -160,14 +160,6 @@
         </button>
         <span class="node-icon">📁</span>
         <span class="node-name">{{ node.name }}</span>
-        <div class="node-actions">
-          <button 
-            class="action-btn delete-btn" 
-            (click)="deleteItem(node)"
-            title="Delete folder">
-            ✕
-          </button>
-        </div>
       </div>
       @if (node.isOpen && node.children && node.children.length > 0) {
         <div class="tree-children">
@@ -182,14 +174,6 @@
       <div class="node-content file" (click)="selectFile(node)">
         <span class="node-icon">📄</span>
         <span class="node-name">{{ node.name }}</span>
-        <div class="node-actions">
-          <button 
-            class="action-btn delete-btn" 
-            (click)="deleteItem(node); $event.stopPropagation()"
-            title="Delete file">
-            ✕
-          </button>
-        </div>
       </div>
     </div>
   }
