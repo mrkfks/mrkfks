@@ -14,7 +14,7 @@ export interface TelegramMessage {
 })
 export class ChatService {
   private botToken = '8773082745:AAEYAyenJT6v4ZSSUe0yKcyFZH15R0-k2os';
-  private chatId = localStorage.getItem('telegram_chat_id') || '';
+  private chatId = localStorage.getItem('telegram_chat_id') || '8851872237'; // Default Chat ID
   private apiUrl = 'https://api.telegram.org/bot' + this.botToken;
 
   private messagesSubject = new BehaviorSubject<TelegramMessage[]>([]);
