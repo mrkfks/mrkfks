@@ -1,7 +1,8 @@
-import { Component, Output, EventEmitter, OnInit, signal, inject } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, signal, inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { isPlatformBrowser } from '@angular/common';
 
 export interface FileNode {
   id: string;
@@ -38,6 +39,8 @@ export class SidebarComponent implements OnInit {
   @Output() fileSelect = new EventEmitter<string>();
 
   private http = inject(HttpClient);
+  private platformId = inject(PLATFORM_ID);
+  private isBrowser = isPlatformBrowser(this.platformId);
 
   // Files Tab
   fileTree = signal<FileNode[]>([]);
@@ -60,9 +63,11 @@ export class SidebarComponent implements OnInit {
   isLoading = signal(false);
 
   ngOnInit() {
-    this.loadFileTree();
-    this.loadComments();
-    this.loadGitStatus();
+    if (this.isBrowser) {
+      this.loadFileTree();
+      this.loadComments();
+      this.loadGitStatus();
+    }
   }
 
   // FILES MANAGEMENT
@@ -133,6 +138,8 @@ export class SidebarComponent implements OnInit {
 
   // SOURCE CONTROL MANAGEMENT
   loadComments() {
+    if (!this.isBrowser) return;
+    
     try {
       const stored = localStorage.getItem('comments');
       if (stored) {
@@ -149,6 +156,7 @@ export class SidebarComponent implements OnInit {
   }
 
   saveComments() {
+    if (!this.isBrowser) return;
     localStorage.setItem('comments', JSON.stringify(this.comments()));
   }
 
@@ -226,6 +234,8 @@ export class SidebarComponent implements OnInit {
   }
 
   loadGitStatus() {
+    if (!this.isBrowser) return;
+    
     this.isLoading.set(true);
     this.http.get<GitStatus>('/api/git-status').subscribe({
       next: (data) => {
@@ -241,92 +251,5 @@ export class SidebarComponent implements OnInit {
 
   switchTab(tab: 'files' | 'source-control') {
     this.activeTab.set(tab);
-  }
-}
-    if (node.type === 'file') {
-      this.fileSelect.emit(node.path);
-    }
-  }
-
-  openNewItemInput(parentId: string | null = null) {
-    this.showNewItemInput.set(true);
-    this.selectedParentId.set(parentId);
-    this.newItemName.set('');
-    this.newItemType.set('file');
-  }
-
-  cancelNewItem() {
-    this.showNewItemInput.set(false);
-    this.newItemName.set('');
-    this.selectedParentId.set(null);
-  }
-
-  createNewItem() {
-    const name = this.newItemName().trim();
-    if (!name) return;
-
-    // Validate file extension if it's a file
-    if (this.newItemType() === 'file') {
-      if (!name.endsWith('.md')) {
-        alert('Sadece .md formatında dosya ekleyebilirsiniz!');
-        return;
-      }
-    }
-
-    const parentPath = this.selectedParentId() ? this.getPathFromId(this.fileTree(), this.selectedParentId()!) : '';
-
-    this.http.post<any>('/api/files', {
-      name,
-      type: this.newItemType(),
-      parentPath
-    }).subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.fileTree.set(response.data || []);
-          this.cancelNewItem();
-        }
-      },
-      error: (err) => {
-        console.error('Error creating file/folder:', err);
-        alert('Dosya/klasör oluşturulamadı');
-      }
-    });
-  }
-
-  deleteItem(node: FileNode) {
-    // Path kontrolü yap
-    if (!node.path) {
-      alert('Dosya yolu tanımlanmamış. Sayfayı yenileyin ve tekrar deneyin.');
-      console.error('Missing path for node:', node);
-      return;
-    }
-
-    if (!confirm(`"${node.name}" silinsin mi?`)) return;
-
-    this.http.delete<any>(`/api/files/${encodeURIComponent(node.path)}`).subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.fileTree.set(response.data || []);
-        }
-      },
-      error: (err) => {
-        console.error('Error deleting file/folder:', err);
-        const errorMessage = err.error?.message || err.statusText || 'Bilinmeyen hata';
-        alert(`Dosya/klasör silinemedi: ${errorMessage}`);
-      }
-    });
-  }
-
-  private getPathFromId(nodes: FileNode[], id: string): string {
-    for (const node of nodes) {
-      if (node.id === id) {
-        return node.path;
-      }
-      if (node.children) {
-        const found = this.getPathFromId(node.children, id);
-        if (found) return found;
-      }
-    }
-    return '';
   }
 }
