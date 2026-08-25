@@ -67,6 +67,7 @@ async function buildFileTree(folderPath, basePath) {
           id,
           name,
           path: entryPath,
+          type: 'folder',
           isFolder: true,
           children
         });
@@ -75,7 +76,7 @@ async function buildFileTree(folderPath, basePath) {
           id,
           name,
           path: entryPath,
-          isFolder: false,
+          type: 'file',
           isFile: true
         });
       }
