@@ -6,12 +6,9 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# Production stage
-FROM node:20-alpine
-WORKDIR /app
-COPY --from=builder /app/dist ./dist
-COPY package*.json ./
-RUN npm ci --omit=dev
-EXPOSE 3000
-ENV PORT=3000
-CMD ["node", "dist/mrkfks/server/server.mjs"]
+# Production - Static file server
+FROM nginx:alpine
+COPY --from=builder /app/dist/mrkfks /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
