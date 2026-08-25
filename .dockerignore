@@ -18,3 +18,7 @@ README.md
 coverage
 .nyc_output
 *.log
+.github
+.vscode
+.idea
+.prettierrc

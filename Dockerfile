@@ -1,20 +1,17 @@
-# Stage 1: Build stage
-FROM node:20-alpine
-
+# Build stage
+FROM node:20-alpine as builder
 WORKDIR /app
-
-# Copy package files
 COPY package*.json ./
-
-# Install dependencies
 RUN npm ci
-
-# Copy source code
 COPY . .
+RUN npm run build
 
-# Expose port
-EXPOSE 4200
-
-# Start with ng serve (development mode)
-# This serves the app with live reload and proper base href handling
-CMD ["npm", "start"]
+# Production stage
+FROM node:20-alpine
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY package*.json ./
+RUN npm ci --omit=dev
+EXPOSE 3000
+ENV PORT=3000
+CMD ["node", "dist/mrkfks/server/server.mjs"]

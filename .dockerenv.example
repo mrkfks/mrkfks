@@ -1,2 +1,0 @@
-# Copy this file to .dockerenv and adjust values if needed
-NODE_ENV=production
