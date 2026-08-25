@@ -53,14 +53,6 @@ Full-Stack Software Developer specializing in enterprise web applications, distr
 
 ---
 
-### 📈 GitHub Activity
-
-<p align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=mrkfks&theme=tokyo-night&hide_border=true" alt="Ömer Kafkas's Contribution Graph" />
-</p>
-
----
-
 ### 📫 Connect with Me
 
 - **LinkedIn:** [linkedin.com/in/mrkfks](https://www.linkedin.com/in/mrkfks/)
