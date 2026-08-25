@@ -1,6 +1,7 @@
 <div class="source-control-container">
-  <!-- Sol Taraf: Yorum Yazma Formu -->
-  <div class="left-panel">
+  <!-- Sağ Panel: Comments + Form -->
+  <div class="right-panel">
+    <!-- Header -->
     <div class="sc-header">
       <span>SOURCE CONTROL</span>
       <button class="refresh-btn" (click)="refreshStatus()" title="Refresh">🔄</button>
@@ -31,14 +32,13 @@
         Send Comment
       </button>
     </div>
-  </div>
 
-  <!-- Sağ Taraf: Yorum Listesi (Editor Alanında Gösterilecek) -->
-  <div class="right-panel">
+    <!-- Comments List Header -->
     <div class="comments-header">
       <span class="comments-title">💬 Comments ({{ comments().length }})</span>
     </div>
 
+    <!-- Comments List -->
     <div class="comments-list">
       @if (comments().length === 0) {
         <div class="no-comments">

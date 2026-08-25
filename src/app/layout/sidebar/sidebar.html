@@ -20,7 +20,6 @@
     <div class="tab-content">
       <div class="explorer-header">
         <span>EXPLORER</span>
-        <button class="add-btn" (click)="openNewItemInput(null)" title="Add new file or folder">➕</button>
       </div>
 
       <!-- File Tree -->
@@ -37,14 +36,7 @@
                 </button>
                 <span class="node-icon">📁</span>
                 <span class="node-name">{{ node.name }}</span>
-                <div class="node-actions">
-                  <button 
-                    class="action-btn delete-btn" 
-                    (click)="deleteItem(node)"
-                    title="Delete folder">
-                    ✕
-                  </button>
-                </div>
+
               </div>
               @if (node.isOpen && node.children && node.children.length > 0) {
                 <div class="tree-children">
@@ -59,38 +51,14 @@
               <div class="node-content file" (click)="selectFile(node)">
                 <span class="node-icon">📄</span>
                 <span class="node-name">{{ node.name }}</span>
-                <div class="node-actions">
-                  <button 
-                    class="action-btn delete-btn" 
-                    (click)="deleteItem(node); $event.stopPropagation()"
-                    title="Delete file">
-                    ✕
-                  </button>
-                </div>
+
               </div>
             </div>
           }
         }
       </div>
 
-      <!-- New Item Input -->
-      @if (showNewItemInput()) {
-        <div class="new-item-input">
-          <select [(ngModel)]="newItemType">
-            <option value="file">Dosya</option>
-            <option value="folder">Klasör</option>
-          </select>
-          <input 
-            type="text"
-            [(ngModel)]="newItemName"
-            placeholder="İsim..."
-            (keyup.enter)="createNewItem()"
-            (keyup.escape)="cancelNewItem()"
-            autofocus />
-          <button (click)="createNewItem()" title="Create">✓</button>
-          <button (click)="cancelNewItem()" title="Cancel">✕</button>
-        </div>
-      }
+
     </div>
   }
 
@@ -192,14 +160,6 @@
         </button>
         <span class="node-icon">📁</span>
         <span class="node-name">{{ node.name }}</span>
-        <div class="node-actions">
-          <button 
-            class="action-btn delete-btn" 
-            (click)="deleteItem(node)"
-            title="Delete folder">
-            ✕
-          </button>
-        </div>
       </div>
       @if (node.isOpen && node.children && node.children.length > 0) {
         <div class="tree-children">
@@ -214,14 +174,6 @@
       <div class="node-content file" (click)="selectFile(node)">
         <span class="node-icon">📄</span>
         <span class="node-name">{{ node.name }}</span>
-        <div class="node-actions">
-          <button 
-            class="action-btn delete-btn" 
-            (click)="deleteItem(node); $event.stopPropagation()"
-            title="Delete file">
-            ✕
-          </button>
-        </div>
       </div>
     </div>
   }

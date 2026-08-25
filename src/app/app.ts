@@ -7,6 +7,7 @@ import { SidebarComponent } from './layout/sidebar/sidebar';
 import { EditorComponent } from './layout/editor-area/editor-area';
 import { StatusBarComponent } from './layout/status-bar/status-bar';
 import { SearchPanelComponent } from './layout/search-panel/search-panel';
+import { ChatComponent } from './layout/chat/chat';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,8 @@ import { SearchPanelComponent } from './layout/search-panel/search-panel';
     SidebarComponent,
     SearchPanelComponent,
     EditorComponent,
-    StatusBarComponent
+    StatusBarComponent,
+    ChatComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'
@@ -32,20 +34,22 @@ export class AppComponent {
   selectedFilePath = signal<string>('');
   selectedFileContent = signal<string>('');
 
-  // Dosya seçildiğinde çalışır - API'den içeriği getir
+  // Dosya seçildiğinde çalışır - GitHub Pages'de backend yok
   onFileSelect(path: string) {
     this.selectedFilePath.set(path);
-    this.http.get<any>(`/api/files/content/${encodeURIComponent(path)}`).subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.selectedFileContent.set(response.data || '');
-        }
-      },
-      error: (err) => {
-        console.error('Error loading file:', err);
-        this.selectedFileContent.set('');
-      }
-    });
+    // GitHub Pages has no backend - using empty content
+    // this.http.get<any>(`/api/files/content/${encodeURIComponent(path)}`).subscribe({
+    //   next: (response) => {
+    //     if (response.success) {
+    //       this.selectedFileContent.set(response.data || '');
+    //     }
+    //   },
+    //   error: (err) => {
+    //     console.error('Error loading file:', err);
+    //     this.selectedFileContent.set('');
+    //   }
+    // });
+    this.selectedFileContent.set('');
   }
 
   // View switch

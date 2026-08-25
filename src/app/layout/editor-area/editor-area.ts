@@ -1,27 +1,20 @@
-import { Component, inject, OnInit, OnChanges, signal, Input, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
+import { Component, inject, OnInit, OnChanges, signal, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-editor',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   templateUrl: './editor-area.html',
   styleUrl: './editor-area.css'
 })
 export class EditorComponent implements OnInit, OnChanges {
-  private http = inject(HttpClient);
   private sanitizer = inject(DomSanitizer);
   
   @Input() selectedFilePath: string = '';
   @Input() selectedFileContent: string = '';
-  @ViewChild('editorTextarea') editorTextarea?: ElementRef<HTMLTextAreaElement>;
-  @ViewChild('imageInput') imageInput?: ElementRef<HTMLInputElement>;
   
-  isEditMode = false;
   markdownContent = signal<string>('');
 
   ngOnChanges(changes: SimpleChanges) {
@@ -39,137 +32,19 @@ export class EditorComponent implements OnInit, OnChanges {
     this.markdownContent.set('');
   }
 
-  insertFormat(format: string) {
-    const textarea = this.editorTextarea?.nativeElement;
-    if (!textarea) return;
-
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const text = this.markdownContent();
-    const selectedText = text.substring(start, end) || 'metni gir';
-
-    let formatted = '';
-    let cursorOffset = 0;
-
-    switch (format) {
-      case 'bold':
-        formatted = `**${selectedText}**`;
-        cursorOffset = selectedText === 'metni gir' ? 2 : formatted.length;
-        break;
-      case 'italic':
-        formatted = `*${selectedText}*`;
-        cursorOffset = selectedText === 'metni gir' ? 1 : formatted.length;
-        break;
-      case 'h1':
-        formatted = `# ${selectedText}\n`;
-        cursorOffset = formatted.length;
-        break;
-      case 'h2':
-        formatted = `## ${selectedText}\n`;
-        cursorOffset = formatted.length;
-        break;
-      case 'h3':
-        formatted = `### ${selectedText}\n`;
-        cursorOffset = formatted.length;
-        break;
-      case 'ul':
-        formatted = `- ${selectedText}\n`;
-        cursorOffset = formatted.length;
-        break;
-      case 'ol':
-        formatted = `1. ${selectedText}\n`;
-        cursorOffset = formatted.length;
-        break;
-      case 'link':
-        formatted = `[${selectedText}](url)`;
-        cursorOffset = formatted.length - 5;
-        break;
-      case 'code':
-        formatted = `\`\`\`\n${selectedText}\n\`\`\``;
-        cursorOffset = formatted.length;
-        break;
-      case 'quote':
-        formatted = `> ${selectedText}\n`;
-        cursorOffset = formatted.length;
-        break;
-      case 'align-left':
-        formatted = `<div style="text-align: left;">${selectedText}</div>\n`;
-        cursorOffset = formatted.length;
-        break;
-      case 'align-center':
-        formatted = `<div style="text-align: center;">${selectedText}</div>\n`;
-        cursorOffset = formatted.length;
-        break;
-      case 'align-right':
-        formatted = `<div style="text-align: right;">${selectedText}</div>\n`;
-        cursorOffset = formatted.length;
-        break;
-      case 'line':
-        formatted = `---\n`;
-        cursorOffset = formatted.length;
-        break;
-      case 'table':
-        formatted = `| Başlık 1 | Başlık 2 |\n|----------|----------|\n| Veri 1   | Veri 2   |\n`;
-        cursorOffset = formatted.length;
-        break;
-    }
-
-    const newText = text.substring(0, start) + formatted + text.substring(end);
-    this.markdownContent.set(newText);
-
-    // Cursor konumunu ayarla
-    setTimeout(() => {
-      if (textarea) {
-        textarea.selectionStart = textarea.selectionEnd = start + cursorOffset;
-        textarea.focus();
-      }
-    });
-  }
-
-  handleKeydown(event: KeyboardEvent) {
-    const textarea = this.editorTextarea?.nativeElement;
-    if (!textarea) return;
-
-    // Ctrl+B için bold
-    if ((event.ctrlKey || event.metaKey) && event.key === 'b') {
-      event.preventDefault();
-      this.insertFormat('bold');
-    }
-    // Ctrl+I için italic
-    if ((event.ctrlKey || event.metaKey) && event.key === 'i') {
-      event.preventDefault();
-      this.insertFormat('italic');
-    }
-  }
-
-  saveFile() {
-    if (!this.isEditMode || !this.selectedFilePath) return;
-    
-    this.http.put(`/api/files/content/${encodeURIComponent(this.selectedFilePath)}`, { 
-      content: this.markdownContent() 
-    }).subscribe({
-      next: () => alert('Dosya başarıyla kaydedildi!'),
-      error: (err) => alert('Dosya kaydedilemedi: ' + err.message)
-    });
-  }
-
   getSafeHtml(): SafeHtml {
-    const markdown = this.markdownContent();
-    const html = this.parseMarkdown(markdown);
+    const content = this.markdownContent();
+    if (!content) {
+      return this.sanitizer.bypassSecurityTrustHtml(
+        `<div class="welcome-message"><h1>📄 Welcome</h1><p>Select a file to view its content</p></div>`
+      );
+    }
+    const html = this.parseMarkdown(content);
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   parseMarkdown(md: string): string {
     let html = md;
-
-    // Escape HTML special characters first
-    html = html
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-
-    // Revert escaped markdown markers
-    html = html.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 
     // Headings
     html = html.replace(/^### (.*?)$/gm, '<h3>$1</h3>');
@@ -203,86 +78,6 @@ export class EditorComponent implements OnInit, OnChanges {
     // Line breaks
     html = html.replace(/\n/g, '<br>');
 
-    // Alignment divs
-    html = html.replace(/<div style="text-align: (left|center|right);">(.*?)<\/div>/g, '<div style="text-align: $1;">$2</div>');
-
-    // Tables (simple support)
-    html = html.replace(/\|(.*?)\|/g, (match) => {
-      const cells = match.split('|').filter(c => c.trim());
-      if (cells.length > 0) {
-        return '<tr>' + cells.map(c => `<td style="border: 1px solid #3e3e42; padding: 8px;">${c.trim()}</td>`).join('') + '</tr>';
-      }
-      return match;
-    });
-
-    // Wrap table rows in table
-    if (html.includes('<tr>')) {
-      html = html.replace(/(<tr>.*?<\/tr>)/gs, '<table style="border-collapse: collapse; margin: 16px 0;">$1</table>');
-    }
-
     return html;
-  }
-
-  openImageUpload() {
-    this.imageInput?.nativeElement?.click();
-  }
-
-  onImageSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
-    
-    if (!file) return;
-
-    // Dosya boyutu kontrol et (10MB max)
-    if (file.size > 10 * 1024 * 1024) {
-      alert('Fotoğraf boyutu 10MB\'dan küçük olmalıdır!');
-      return;
-    }
-
-    const reader = new FileReader();
-    
-    reader.onload = (e) => {
-      const base64String = e.target?.result as string;
-      
-      // Backend'e base64 gönder
-      this.http.post<any>('/api/upload', { 
-        imageData: base64String.split(',')[1], // base64 kısmını al
-        filename: file.name 
-      }).subscribe({
-        next: (response) => {
-          if (response.success && response.data?.url) {
-            const imageMarkdown = `![${file.name}](${response.data.url})\n`;
-            const textarea = this.editorTextarea?.nativeElement;
-            
-            if (textarea) {
-              const start = textarea.selectionStart;
-              const text = this.markdownContent();
-              const newText = text.substring(0, start) + imageMarkdown + text.substring(start);
-              this.markdownContent.set(newText);
-              
-              setTimeout(() => {
-                if (textarea) {
-                  textarea.selectionStart = textarea.selectionEnd = start + imageMarkdown.length;
-                  textarea.focus();
-                }
-              });
-            }
-          }
-        },
-        error: (err) => {
-          console.error('Image upload error:', err);
-          alert('Fotoğraf yüklenemedi: ' + (err.error?.message || err.statusText || 'Bilinmeyen hata'));
-        }
-      });
-    };
-    
-    reader.onerror = () => {
-      alert('Fotoğraf okunamadı!');
-    };
-    
-    reader.readAsDataURL(file);
-
-    // Input'u reset et
-    input.value = '';
   }
 }
