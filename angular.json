@@ -32,7 +32,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "outputMode": "single"
+            "outputMode": "static"
           },
           "configurations": {
             "production": {
