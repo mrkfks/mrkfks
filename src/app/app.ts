@@ -7,6 +7,7 @@ import { SidebarComponent } from './layout/sidebar/sidebar';
 import { EditorComponent } from './layout/editor-area/editor-area';
 import { StatusBarComponent } from './layout/status-bar/status-bar';
 import { SearchPanelComponent } from './layout/search-panel/search-panel';
+import { SourceControlComponent } from './layout/source-control/source-control';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,8 @@ import { SearchPanelComponent } from './layout/search-panel/search-panel';
     SidebarComponent,
     SearchPanelComponent,
     EditorComponent,
-    StatusBarComponent
+    StatusBarComponent,
+    SourceControlComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'

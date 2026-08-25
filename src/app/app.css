@@ -18,3 +18,9 @@
   display: flex;
   overflow: hidden;
 }
+
+.editor-section {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
