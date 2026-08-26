@@ -118,4 +118,12 @@ export class TabStateService {
   getTabByPath(path: string): Tab | undefined {
     return this.tabs().find(tab => tab.path === path);
   }
+
+  /**
+   * Clear all tabs
+   */
+  clearAllTabs(): void {
+    this.tabs.set([]);
+    this.activeTabId.set(null);
+  }
 }

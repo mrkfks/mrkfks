@@ -1,11 +1,12 @@
 import { Component, inject, OnInit, OnChanges, signal, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { TabBarComponent } from './tab-bar.component';
 
 @Component({
   selector: 'app-editor',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TabBarComponent],
   templateUrl: './editor-area.html',
   styleUrl: './editor-area.css'
 })
