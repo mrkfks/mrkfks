@@ -1,0 +1,32 @@
+{
+  "tree": [
+    {
+      "id": "bio",
+      "name": "bio",
+      "type": "folder",
+      "isOpen": true,
+      "children": [
+        { "id": "bio-overview",    "name": "overview.md",     "type": "file", "path": "bio/overview.md" },
+        { "id": "bio-experience",  "name": "experience.json", "type": "file", "path": "bio/experience.json" }
+      ]
+    },
+    {
+      "id": "blog",
+      "name": "blog",
+      "type": "folder",
+      "isOpen": false,
+      "children": [
+        {
+          "id": "blog-architecture",
+          "name": "architecture",
+          "type": "folder",
+          "isOpen": false,
+          "children": [
+            { "id": "clean-arch", "name": "clean-architecture.md", "type": "file", "path": "blog/architecture/clean-architecture.md" }
+          ]
+        }
+      ]
+    },
+    { "id": "changelog", "name": "changelog.json", "type": "file", "path": "changelog.json" }
+  ]
+}
