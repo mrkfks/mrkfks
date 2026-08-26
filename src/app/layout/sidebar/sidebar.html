@@ -7,12 +7,6 @@
       (click)="switchTab('files')">
       📄 Files
     </button>
-    <button 
-      class="tab-btn"
-      [class.active]="activeTab() === 'source-control'"
-      (click)="switchTab('source-control')">
-      🌿 SCM
-    </button>
   </div>
 
   <!-- FILES TAB -->
@@ -59,91 +53,6 @@
       </div>
 
 
-    </div>
-  }
-
-  <!-- SOURCE CONTROL TAB -->
-  @if (activeTab() === 'source-control') {
-    <div class="tab-content sc-tab">
-      <div class="sc-header">
-        <span>SOURCE CONTROL</span>
-        <button class="refresh-btn" (click)="loadGitStatus()" title="Refresh">🔄</button>
-      </div>
-
-      <!-- Comment Form -->
-      <div class="comment-form">
-        <div class="section-title">Add Comment</div>
-        <textarea
-          class="comment-input"
-          [(ngModel)]="newCommentText"
-          placeholder="Yorum yaz..."
-          (keyup.enter)="addComment()">
-        </textarea>
-        <select class="category-select" [(ngModel)]="newCommentCategory">
-          <option value="note">📝 Note</option>
-          <option value="bug">🐛 Bug</option>
-          <option value="feature">✨ Feature</option>
-          <option value="improvement">🔧 Improvement</option>
-        </select>
-        <button 
-          class="submit-btn"
-          [disabled]="!newCommentText().trim()"
-          (click)="addComment()">
-          Send Comment
-        </button>
-      </div>
-
-      <!-- Comments List -->
-      <div class="comments-header">
-        <div class="comments-title">💬 Comments ({{ comments().length }})</div>
-      </div>
-      <div class="comments-list">
-        @if (comments().length === 0) {
-          <div class="no-comments">
-            <div class="empty-icon">🗨️</div>
-            <div class="empty-text">Yorum bulunmamaktadır</div>
-          </div>
-        } @else {
-          @for (comment of comments(); track comment.id) {
-            <div class="comment-card" [style.border-left-color]="getCategoryColor(comment.category)">
-              <div class="comment-header">
-                <div class="comment-meta">
-                  <span class="comment-category" [style.color]="getCategoryColor(comment.category)">
-                    {{ getCategoryLabel(comment.category) }}
-                  </span>
-                  <span class="comment-time">{{ formatTime(comment.timestamp) }}</span>
-                </div>
-                <div class="comment-actions">
-                  <button 
-                    class="edit-btn"
-                    (click)="startEditing(comment)"
-                    title="Edit comment">
-                    ✎
-                  </button>
-                  <button 
-                    class="delete-btn"
-                    (click)="deleteComment(comment.id)"
-                    title="Delete comment">
-                    ✕
-                  </button>
-                </div>
-              </div>
-
-              @if (editingCommentId() === comment.id) {
-                <div class="comment-edit">
-                  <textarea class="edit-input" [(ngModel)]="editingCommentText"></textarea>
-                  <div class="edit-actions">
-                    <button class="save-btn" (click)="saveEditing(comment.id)">💾 Save</button>
-                    <button class="cancel-btn" (click)="cancelEditing()">✕ Cancel</button>
-                  </div>
-                </div>
-              } @else {
-                <div class="comment-body">{{ comment.text }}</div>
-              }
-            </div>
-          }
-        }
-      </div>
     </div>
   }
 </div>
