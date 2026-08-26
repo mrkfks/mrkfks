@@ -1,13 +1,14 @@
 import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TitleBarComponent } from './layout/title-bar/title-bar';
-import { ActivityBarComponent } from './layout/activity-bar/activity-bar';
-import { SidebarComponent } from './layout/sidebar/sidebar';
+import { ActivityBarComponent, ActiveView } from './layout/activity-bar/activity-bar';
 import { StatusBarComponent } from './layout/status-bar/status-bar';
 import { SearchPanelComponent } from './layout/search-panel/search-panel';
 import { ChatWidgetComponent } from './features/chat/components/chat-widget.component';
-import { TabStateService } from './core/services/tab-state.service';
 import { SourceControlComponent } from './features/source-control/source-control.component';
+import { ExplorerPanelComponent } from './features/explorer/explorer-panel.component';
+import { SettingsPanelComponent } from './features/settings/settings-panel.component';
+import { SettingsService } from './core/services/settings.service';
 
 @Component({
   selector: 'app-root',
@@ -16,19 +17,22 @@ import { SourceControlComponent } from './features/source-control/source-control
     CommonModule,
     TitleBarComponent,
     ActivityBarComponent,
-    SidebarComponent,
+    ExplorerPanelComponent,
     SearchPanelComponent,
+    SourceControlComponent,
+    SettingsPanelComponent,
     StatusBarComponent,
-    ChatWidgetComponent,
-    SourceControlComponent
+    ChatWidgetComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class AppComponent {
-  activeView = signal<'explorer' | 'search' | 'news'>('explorer');
-  
-  switchView(view: 'explorer' | 'search' | 'news'): void {
+  private settingsService = inject(SettingsService); // initialize on startup
+
+  activeView = signal<ActiveView>('explorer');
+
+  switchView(view: ActiveView): void {
     this.activeView.set(view);
   }
 }

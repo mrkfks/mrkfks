@@ -1,3 +1,18 @@
+:root {
+  --vs-bg:        #1e1e1e;
+  --vs-panel:     #252526;
+  --vs-text:      #cccccc;
+  --vs-accent:    #007acc;
+  --vs-teal:      #4ec9b0;
+  --vs-border:    #2b2b2b;
+  --vs-muted:     #858585;
+  --vs-hover:     #2d2d30;
+  --vs-actbar:    #333333;
+  --vs-string:    #ce9178;
+  --vs-keyword:   #569cd6;
+  --vs-font-size: 13px;
+}
+
 :host {
   display: block;
   height: 100vh;

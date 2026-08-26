@@ -1,70 +1,82 @@
-import { Component, inject, computed } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChangelogService } from '../../core/services/changelog.service';
-import { TabStateService } from '../../core/services/tab-state.service';
+import { ContentService } from '../../core/services/content.service';
 import { FeedItem } from '../../core/models/changelog.model';
+import { MarkdownCardComponent } from '../../shared/components/markdown-card/markdown-card.component';
 
 @Component({
   selector: 'app-source-control',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MarkdownCardComponent],
   template: `
     <div class="source-control-container">
-      <!-- Header -->
-      <div class="sc-header">
-        <div class="header-content">
-          <span class="header-title">📰 HABER AKIŞI</span>
-          <span class="badge">{{ changelogService.feedItems().length }}</span>
+
+      @if (selectedItem()) {
+        <!-- Inline Markdown Read-View -->
+        <app-markdown-card
+          [filePath]="selectedItem()!.targetPath"
+          [content]="markdownContent()"
+          [loading]="isLoadingContent()"
+          (closed)="closeMarkdown()">
+        </app-markdown-card>
+      } @else {
+        <!-- Feed List View -->
+        <div class="sc-header">
+          <div class="header-content">
+            <span class="header-title">📰 HABER AKIŞI</span>
+            <span class="badge">{{ changelogService.feedItems().length }}</span>
+          </div>
+          <button class="refresh-btn" (click)="refreshFeed()" title="Yenile">
+            🔄
+          </button>
         </div>
-        <button class="refresh-btn" (click)="refreshFeed()" title="Yenile">
-          🔄
-        </button>
-      </div>
 
-      <!-- Feed Items -->
-      <div class="feed-list">
-        @if (changelogService.isLoading()) {
-          <div class="loading">
-            <span>Yükleniyor...</span>
-          </div>
-        } @else if (changelogService.feedItems().length === 0) {
-          <div class="empty-state">
-            <div class="empty-icon">📭</div>
-            <div class="empty-text">Haber bulunmamaktadır</div>
-          </div>
-        } @else {
-          @for (item of changelogService.feedItems(); track item.id; let last = $last) {
-            <div class="feed-item" (click)="openFeedFile(item)">
-              <!-- Timeline -->
-              <div class="timeline">
-                <div class="node"></div>
-                @if (!last) {
-                  <div class="line"></div>
-                }
-              </div>
-
-              <!-- Content -->
-              <div class="item-content">
-                <div class="item-header">
-                  <span class="commit-hash">{{ item.hash }}</span>
-                  <span class="item-type" [class]="'type-' + item.type">
-                    {{ getTypeLabel(item.type) }}
-                  </span>
-                </div>
-
-                <div class="item-title">{{ item.title }}</div>
-
-                <div class="item-description">{{ item.description }}</div>
-
-                <div class="item-footer">
-                  <span class="author">{{ item.author }}</span>
-                  <span class="date">{{ formatDate(item.date) }}</span>
-                </div>
-              </div>
+        <!-- Feed Items -->
+        <div class="feed-list">
+          @if (changelogService.isLoading()) {
+            <div class="loading">
+              <span>Yükleniyor...</span>
             </div>
+          } @else if (changelogService.feedItems().length === 0) {
+            <div class="empty-state">
+              <div class="empty-icon">📭</div>
+              <div class="empty-text">Haber bulunmamaktadır</div>
+            </div>
+          } @else {
+            @for (item of changelogService.feedItems(); track item.id; let last = $last) {
+              <div class="feed-item" (click)="openFeedFile(item)">
+                <!-- Timeline -->
+                <div class="timeline">
+                  <div class="node"></div>
+                  @if (!last) {
+                    <div class="line"></div>
+                  }
+                </div>
+
+                <!-- Content -->
+                <div class="item-content">
+                  <div class="item-header">
+                    <span class="commit-hash">{{ item.hash }}</span>
+                    <span class="item-type" [class]="'type-' + item.type">
+                      {{ getTypeLabel(item.type) }}
+                    </span>
+                  </div>
+
+                  <div class="item-title">{{ item.title }}</div>
+
+                  <div class="item-description">{{ item.description }}</div>
+
+                  <div class="item-footer">
+                    <span class="author">{{ item.author }}</span>
+                    <span class="date">{{ formatDate(item.date) }}</span>
+                  </div>
+                </div>
+              </div>
+            }
           }
-        }
-      </div>
+        </div>
+      }
     </div>
   `,
   styles: [`
@@ -306,7 +318,11 @@ import { FeedItem } from '../../core/models/changelog.model';
 })
 export class SourceControlComponent {
   changelogService = inject(ChangelogService);
-  private tabService = inject(TabStateService);
+  private contentService = inject(ContentService);
+
+  selectedItem = signal<FeedItem | null>(null);
+  markdownContent = signal('');
+  isLoadingContent = signal(false);
 
   getTypeLabel(type: string): string {
     const labels: { [key: string]: string } = {
@@ -330,16 +346,26 @@ export class SourceControlComponent {
   }
 
   openFeedFile(item: FeedItem): void {
-    const filename = item.targetPath.split('/').pop()?.split('.')[0] || 'file';
-    const tabId = `${filename}-${Date.now()}`;
+    if (!item.targetPath) return;
+    this.selectedItem.set(item);
+    this.markdownContent.set('');
+    this.isLoadingContent.set(true);
 
-    this.tabService.addTab({
-      id: tabId,
-      name: item.title,
-      path: item.targetPath,
-      type: item.targetPath.endsWith('.md') ? 'markdown' : 'config',
-      isActive: true
+    this.contentService.loadContent(item.targetPath).subscribe({
+      next: (content) => {
+        this.markdownContent.set(content);
+        this.isLoadingContent.set(false);
+      },
+      error: () => {
+        this.markdownContent.set(`# Dosya Yüklenemedi\n\nDosya bulunamadı: \`${item.targetPath}\``);
+        this.isLoadingContent.set(false);
+      }
     });
+  }
+
+  closeMarkdown(): void {
+    this.selectedItem.set(null);
+    this.markdownContent.set('');
   }
 
   refreshFeed(): void {

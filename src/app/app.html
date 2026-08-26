@@ -1,29 +1,25 @@
 <div class="vscode-layout">
   <app-title-bar />
-  
+
   <div class="vscode-main-body">
     <div class="editor-section">
       <app-activity-bar (viewChange)="switchView($event)" [activeView]="activeView()" />
-      
-      <!-- Explorer View -->
+
       @if (activeView() === 'explorer') {
-        <app-sidebar />
+        <app-explorer-panel />
       }
-      
-      <!-- Search View -->
       @if (activeView() === 'search') {
         <app-search-panel />
       }
-
-      <!-- News Feed View -->
       @if (activeView() === 'news') {
         <app-source-control />
+      }
+      @if (activeView() === 'settings') {
+        <app-settings-panel />
       }
     </div>
   </div>
 
   <app-status-bar />
-
-  <!-- AI Copilot Chat Widget -->
   <app-chat-widget />
 </div>
