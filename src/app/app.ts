@@ -6,7 +6,6 @@ import { SidebarComponent } from './layout/sidebar/sidebar';
 import { EditorComponent } from './layout/editor-area/editor-area';
 import { StatusBarComponent } from './layout/status-bar/status-bar';
 import { SearchPanelComponent } from './layout/search-panel/search-panel';
-import { ScmPanelComponent } from './layout/scm-panel/scm-panel.component';
 import { ChatWidgetComponent } from './features/chat/components/chat-widget.component';
 import { TabStateService } from './core/services/tab-state.service';
 
@@ -19,7 +18,6 @@ import { TabStateService } from './core/services/tab-state.service';
     ActivityBarComponent,
     SidebarComponent,
     SearchPanelComponent,
-    ScmPanelComponent,
     EditorComponent,
     StatusBarComponent,
     ChatWidgetComponent
@@ -30,12 +28,12 @@ import { TabStateService } from './core/services/tab-state.service';
 export class AppComponent {
   private tabService = inject(TabStateService);
 
-  activeView = signal<'explorer' | 'search' | 'scm'>('explorer');
+  activeView = signal<'explorer' | 'search'>('explorer');
 
   // Computed: Get active tab content for editor
   activeTab = computed(() => this.tabService.activeTab$());
   
-  switchView(view: 'explorer' | 'search' | 'scm'): void {
+  switchView(view: 'explorer' | 'search'): void {
     this.activeView.set(view);
   }
 }
