@@ -59,3 +59,4 @@ Full-Stack Software Developer specializing in enterprise web applications, distr
 
 - **LinkedIn:** [linkedin.com/in/mrkfks](https://www.linkedin.com/in/mrkfks/)
 - **Email:** [mrkfks@proton.me](mailto:mrkfks@proton.me)
+- **Email:** [https://mrkfks.github.io/mrkfks/](https://mrkfks.github.io/mrkfks/)
