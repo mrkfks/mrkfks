@@ -6,9 +6,8 @@
       <app-activity-bar (viewChange)="switchView($event)" [activeView]="activeView()" />
       
       <!-- Explorer View -->
-      @if (false) {
-        <app-sidebar 
-          (fileSelect)="onFileSelect($event)" />
+      @if (activeView() === 'explorer') {
+        <app-sidebar />
       }
       
       <!-- Search View -->
