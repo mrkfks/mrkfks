@@ -8,6 +8,7 @@ import { EditorComponent } from './layout/editor-area/editor-area';
 import { StatusBarComponent } from './layout/status-bar/status-bar';
 import { SearchPanelComponent } from './layout/search-panel/search-panel';
 import { ChatComponent } from './layout/chat/chat';
+import { ChatWidgetComponent } from './features/chat/components/chat-widget.component';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,8 @@ import { ChatComponent } from './layout/chat/chat';
     SearchPanelComponent,
     EditorComponent,
     StatusBarComponent,
-    ChatComponent
+    ChatComponent,
+    ChatWidgetComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'

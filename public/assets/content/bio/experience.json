@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "company": "Freelance | Full-Stack Developer",
+    "role": "Senior Software Engineer",
+    "period": "2023 - Present",
+    "description": "Building enterprise-scale web applications with Angular and .NET Core",
+    "achievements": [
+      "Architected and deployed 5+ production applications",
+      "Led technical decisions on microservices and API design",
+      "Mentored junior developers on clean code practices"
+    ]
+  },
+  {
+    "id": 2,
+    "company": "Various Startups & Companies",
+    "role": "Full-Stack Developer",
+    "period": "2020 - 2023",
+    "description": "Developed web applications, APIs, and database solutions",
+    "achievements": [
+      "Optimized SQL queries reducing load times by 60%",
+      "Built responsive Angular applications for 100k+ users",
+      "Implemented CI/CD pipelines with GitHub Actions"
+    ]
+  },
+  {
+    "id": 3,
+    "company": "Education & Certifications",
+    "role": "Continuous Learning",
+    "period": "Ongoing",
+    "description": "500+ hours of professional training in software engineering",
+    "achievements": [
+      "BT Akademi: Software Engineering Program (500 hrs)",
+      "Database Query with SQL Server 2019 (40 hrs)",
+      "Agile Project Management & Scrum (12 hrs)"
+    ]
+  }
+]
