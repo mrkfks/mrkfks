@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
+import { SourceControlComponent } from '../../features/source-control/source-control.component';
 
 export interface FileNode {
   id: string;
@@ -16,7 +17,7 @@ export interface FileNode {
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SourceControlComponent],
   templateUrl: './sidebar.html',
   styleUrls: ['./sidebar.css']
 })
@@ -31,7 +32,7 @@ export class SidebarComponent implements OnInit {
   fileTree = signal<FileNode[]>([]);
 
   // Tabs
-  activeTab = signal<'files'>('files');
+  activeTab = signal<'files' | 'source-control'>('files');
 
   ngOnInit() {
     if (this.isBrowser) {
@@ -69,7 +70,7 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  switchTab(tab: 'files') {
+  switchTab(tab: 'files' | 'source-control') {
     this.activeTab.set(tab);
   }
 }

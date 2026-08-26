@@ -1,0 +1,54 @@
+{
+  "items": [
+    {
+      "id": "commit-001",
+      "hash": "a8f3d1e",
+      "date": "2026-08-26T15:45:00Z",
+      "title": "Clean Architecture Rehberi Yayınlandı",
+      "type": "blog",
+      "description": ".NET ve Angular projelerinde Clean Architecture kullanımı üzerine kapsamlı bir rehber eklendi.",
+      "targetPath": "assets/content/blog/architecture/clean-architecture.md",
+      "author": "Ömer Kafkas"
+    },
+    {
+      "id": "commit-002",
+      "hash": "4c9756b",
+      "date": "2026-08-24T10:20:00Z",
+      "title": "Deneyim ve Beceriler Sayfası Güncellendi",
+      "type": "update",
+      "description": "Yeni teknoloji stack'leri ve proje tecrübeleri biography sekmesine eklendi.",
+      "targetPath": "assets/content/bio/experience.json",
+      "author": "Ömer Kafkas"
+    },
+    {
+      "id": "commit-003",
+      "hash": "2e1f456",
+      "date": "2026-08-22T14:30:00Z",
+      "title": "BrickStack Monorepo Projesi Eklendi",
+      "type": "project",
+      "description": "Shared Identity mimarisine sahip monorepo projesinin detayları ve best practices rehberi yayınlandı.",
+      "targetPath": "assets/content/blog/projects/brickstack-monorepo.md",
+      "author": "Ömer Kafkas"
+    },
+    {
+      "id": "commit-004",
+      "hash": "7d8c234",
+      "date": "2026-08-20T09:15:00Z",
+      "title": "Portfolio Sitesi V2 Yayınlandı",
+      "type": "milestone",
+      "description": "VS Code temalı yeni portfolio sitesi Angular 21 ve Signals ile tamamen yeniden tasarlandı.",
+      "targetPath": "assets/content/bio/overview.md",
+      "author": "Ömer Kafkas"
+    },
+    {
+      "id": "commit-005",
+      "hash": "5a2b9f1",
+      "date": "2026-08-18T11:45:00Z",
+      "title": "Responsive Design Optimizasyonu",
+      "type": "update",
+      "description": "Mobil cihazlar için responsive design ve accessibility iyileştirmeleri yapıldı.",
+      "targetPath": "assets/content/bio/overview.md",
+      "author": "Ömer Kafkas"
+    }
+  ]
+}
