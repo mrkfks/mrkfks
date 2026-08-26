@@ -7,7 +7,6 @@ import { SidebarComponent } from './layout/sidebar/sidebar';
 import { EditorComponent } from './layout/editor-area/editor-area';
 import { StatusBarComponent } from './layout/status-bar/status-bar';
 import { SearchPanelComponent } from './layout/search-panel/search-panel';
-import { ChatComponent } from './layout/chat/chat';
 import { ChatWidgetComponent } from './features/chat/components/chat-widget.component';
 
 @Component({
@@ -21,7 +20,6 @@ import { ChatWidgetComponent } from './features/chat/components/chat-widget.comp
     SearchPanelComponent,
     EditorComponent,
     StatusBarComponent,
-    ChatComponent,
     ChatWidgetComponent
   ],
   templateUrl: './app.html',
