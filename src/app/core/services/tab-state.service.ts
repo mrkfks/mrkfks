@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
-import { signal, computed } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { signal, computed, effect } from '@angular/core';
+import { ContentService } from './content.service';
 
 export interface Tab {
   id: string;
@@ -9,12 +10,15 @@ export interface Tab {
   content?: string;
   isDirty?: boolean;
   isActive: boolean;
+  isLoading?: boolean;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class TabStateService {
+  private contentService = inject(ContentService);
+
   // State
   private tabs = signal<Tab[]>([]);
   private activeTabId = signal<string | null>(null);
@@ -28,12 +32,27 @@ export class TabStateService {
 
   constructor() {
     // Initialize with default tab (overview.md)
-    this.addTab({
+    const defaultTab: Tab = {
       id: 'overview',
       name: 'overview.md',
       path: 'bio/overview.md',
       type: 'markdown',
-      isActive: true
+      isActive: true,
+      isLoading: true
+    };
+    
+    this.tabs.set([defaultTab]);
+    this.activeTabId.set('overview');
+    
+    // Load default tab content
+    this.loadTabContent(defaultTab);
+
+    // Setup auto-load when active tab changes
+    effect(() => {
+      const activeTab = this.activeTab$();
+      if (activeTab && !activeTab.content && !activeTab.isLoading) {
+        this.loadTabContent(activeTab);
+      }
     });
   }
 
@@ -117,6 +136,35 @@ export class TabStateService {
    */
   getTabByPath(path: string): Tab | undefined {
     return this.tabs().find(tab => tab.path === path);
+  }
+
+  /**
+   * Load content for a tab
+   */
+  private loadTabContent(tab: Tab): void {
+    this.setTabLoading(tab.id, true);
+
+    this.contentService.loadContent(tab.path).subscribe({
+      next: (content) => {
+        this.updateTabContent(tab.id, content);
+        this.setTabLoading(tab.id, false);
+      },
+      error: (error) => {
+        console.error(`Failed to load tab content for ${tab.path}:`, error);
+        this.updateTabContent(tab.id, `Error loading content: ${tab.path}`);
+        this.setTabLoading(tab.id, false);
+      }
+    });
+  }
+
+  /**
+   * Set loading state for tab
+   */
+  private setTabLoading(tabId: string, isLoading: boolean): void {
+    const updatedTabs = this.tabs().map(tab =>
+      tab.id === tabId ? { ...tab, isLoading } : tab
+    );
+    this.tabs.set(updatedTabs);
   }
 
   /**

@@ -12,19 +12,17 @@
       
       <!-- Search View -->
       @if (activeView() === 'search') {
-        <app-search-panel 
-          (fileSelect)="onFileSelect($event)" />
+        <app-search-panel />
       }
       
-      <!-- EditorArea seçilen dosyayı gösterir -->
+      <!-- Editor Area with Active Tab Content -->
       <app-editor 
-        [selectedFilePath]="selectedFilePath()"
-        [selectedFileContent]="selectedFileContent()" />
+        [activeTab]="activeTab()" />
     </div>
   </div>
 
   <app-status-bar />
 
-  <!-- AI Copilot Chat Widget (VS Code Teması Uyumlu) -->
+  <!-- AI Copilot Chat Widget -->
   <app-chat-widget />
 </div>

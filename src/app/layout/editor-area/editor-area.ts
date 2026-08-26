@@ -1,7 +1,8 @@
-import { Component, inject, OnInit, OnChanges, signal, Input, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TabBarComponent } from './tab-bar.component';
+import { TabStateService, Tab } from '../../core/services/tab-state.service';
 
 @Component({
   selector: 'app-editor',
@@ -10,41 +11,44 @@ import { TabBarComponent } from './tab-bar.component';
   templateUrl: './editor-area.html',
   styleUrl: './editor-area.css'
 })
-export class EditorComponent implements OnInit, OnChanges {
+export class EditorComponent {
   private sanitizer = inject(DomSanitizer);
   
-  @Input() selectedFilePath: string = '';
-  @Input() selectedFileContent: string = '';
-  
-  markdownContent = signal<string>('');
-
-  ngOnChanges(changes: SimpleChanges) {
-    // selectedFileContent değiştiğinde markdownContent'i güncelle
-    if (changes['selectedFileContent']) {
-      this.markdownContent.set(this.selectedFileContent || '');
-    }
-  }
-
-  ngOnInit() {
-    // Sadece client-side tarafında veri yükle
-    if (typeof window === 'undefined') return;
-    
-    // Başlangıçta boş sayfa göster
-    this.markdownContent.set('');
-  }
+  @Input() activeTab: Tab | null = null;
 
   getSafeHtml(): SafeHtml {
-    const content = this.markdownContent();
-    if (!content) {
+    if (!this.activeTab) {
       return this.sanitizer.bypassSecurityTrustHtml(
         `<div class="welcome-message"><h1>📄 Welcome</h1><p>Select a file to view its content</p></div>`
       );
     }
-    const html = this.parseMarkdown(content);
-    return this.sanitizer.bypassSecurityTrustHtml(html);
+
+    if (this.activeTab.isLoading) {
+      return this.sanitizer.bypassSecurityTrustHtml(
+        `<div class="welcome-message"><h1>⏳ Loading...</h1><p>${this.activeTab.name}</p></div>`
+      );
+    }
+
+    const content = this.activeTab.content;
+    if (!content) {
+      return this.sanitizer.bypassSecurityTrustHtml(
+        `<div class="welcome-message"><h1>📄 ${this.activeTab.name}</h1><p>No content available</p></div>`
+      );
+    }
+
+    // Parse markdown only if type is markdown
+    if (this.activeTab.type === 'markdown') {
+      const html = this.parseMarkdown(content);
+      return this.sanitizer.bypassSecurityTrustHtml(html);
+    }
+
+    // For other types, show as pre-formatted text
+    return this.sanitizer.bypassSecurityTrustHtml(
+      `<pre style="background-color: #1e1e1e; border: 1px solid #3e3e42; padding: 12px; border-radius: 4px; overflow-x: auto; margin: 8px 0;"><code style="color: #d4d4d4; font-family: Consolas, Monaco, monospace; font-size: 12px;">${this.escapeHtml(content)}</code></pre>`
+    );
   }
 
-  parseMarkdown(md: string): string {
+  private parseMarkdown(md: string): string {
     let html = md;
 
     // Headings
@@ -80,5 +84,16 @@ export class EditorComponent implements OnInit, OnChanges {
     html = html.replace(/\n/g, '<br>');
 
     return html;
+  }
+
+  private escapeHtml(text: string): string {
+    const map: { [key: string]: string } = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, (m) => map[m]);
   }
 }
