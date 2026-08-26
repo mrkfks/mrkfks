@@ -20,6 +20,13 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
           title="Search">
           🔍
         </button>
+        <button 
+          class="icon-btn" 
+          [class.active]="activeView === 'news'"
+          (click)="selectView('news')"
+          title="Haber Akışı">
+          📰
+        </button>
       </div>
       <div class="bottom-icons">
         <button class="icon-btn" title="Settings">⚙️</button>
@@ -29,10 +36,10 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
   styleUrls: ['./activity-bar.css']
 })
 export class ActivityBarComponent {
-  @Input() activeView: 'explorer' | 'search' = 'explorer';
-  @Output() viewChange = new EventEmitter<'explorer' | 'search'>();
+  @Input() activeView: 'explorer' | 'search' | 'news' = 'explorer';
+  @Output() viewChange = new EventEmitter<'explorer' | 'search' | 'news'>();
 
-  selectView(view: 'explorer' | 'search') {
+  selectView(view: 'explorer' | 'search' | 'news') {
     this.viewChange.emit(view);
   }
 }

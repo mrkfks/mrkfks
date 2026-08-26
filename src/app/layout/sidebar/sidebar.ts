@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
-import { SourceControlComponent } from '../../features/source-control/source-control.component';
-
 export interface FileNode {
   id: string;
   name: string;
@@ -17,7 +15,7 @@ export interface FileNode {
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, FormsModule, SourceControlComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './sidebar.html',
   styleUrls: ['./sidebar.css']
 })

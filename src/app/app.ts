@@ -7,6 +7,7 @@ import { StatusBarComponent } from './layout/status-bar/status-bar';
 import { SearchPanelComponent } from './layout/search-panel/search-panel';
 import { ChatWidgetComponent } from './features/chat/components/chat-widget.component';
 import { TabStateService } from './core/services/tab-state.service';
+import { SourceControlComponent } from './features/source-control/source-control.component';
 
 @Component({
   selector: 'app-root',
@@ -18,15 +19,16 @@ import { TabStateService } from './core/services/tab-state.service';
     SidebarComponent,
     SearchPanelComponent,
     StatusBarComponent,
-    ChatWidgetComponent
+    ChatWidgetComponent,
+    SourceControlComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class AppComponent {
-  activeView = signal<'explorer' | 'search'>('explorer');
+  activeView = signal<'explorer' | 'search' | 'news'>('explorer');
   
-  switchView(view: 'explorer' | 'search'): void {
+  switchView(view: 'explorer' | 'search' | 'news'): void {
     this.activeView.set(view);
   }
 }
