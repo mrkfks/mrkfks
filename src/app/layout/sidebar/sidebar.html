@@ -1,26 +1,9 @@
 <div class="sidebar">
-  <!-- Header with Tabs -->
-  <div class="sidebar-tabs">
-    <button 
-      class="tab-btn"
-      [class.active]="activeTab() === 'files'"
-      (click)="switchTab('files')">
-      📄 Files
-    </button>
-    <button 
-      class="tab-btn"
-      [class.active]="activeTab() === 'source-control'"
-      (click)="switchTab('source-control')">
-      📰 News
-    </button>
-  </div>
-
-  <!-- FILES TAB -->
-  @if (activeTab() === 'files') {
-    <div class="tab-content">
-      <div class="explorer-header">
-        <span>EXPLORER</span>
-      </div>
+  <!-- EXPLORER SECTION -->
+  <div class="sidebar-explorer">
+    <div class="explorer-header">
+      <span>EXPLORER</span>
+    </div>
 
       <!-- File Tree -->
       <div class="file-tree">
@@ -57,15 +40,12 @@
           }
         }
       </div>
-
-
     </div>
-  }
 
-  <!-- SOURCE CONTROL TAB -->
-  @if (activeTab() === 'source-control') {
+  <!-- NEWS FEED SECTION -->
+  <div class="sidebar-news">
     <app-source-control />
-  }
+  </div>
 </div>
 
 <ng-template #treeNodeTemplate let-node>

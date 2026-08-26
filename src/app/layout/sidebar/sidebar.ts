@@ -31,9 +31,6 @@ export class SidebarComponent implements OnInit {
   // Files Tab
   fileTree = signal<FileNode[]>([]);
 
-  // Tabs
-  activeTab = signal<'files' | 'source-control'>('files');
-
   ngOnInit() {
     if (this.isBrowser) {
       this.loadFileTree();
@@ -68,9 +65,5 @@ export class SidebarComponent implements OnInit {
     if (node.type === 'file') {
       this.fileSelect.emit(node.path);
     }
-  }
-
-  switchTab(tab: 'files' | 'source-control') {
-    this.activeTab.set(tab);
   }
 }

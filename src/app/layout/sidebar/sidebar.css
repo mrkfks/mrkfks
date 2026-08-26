@@ -14,6 +14,24 @@
   flex-direction: column;
 }
 
+/* Explorer Section - Takes most space */
+.sidebar-explorer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-bottom: 1px solid #2b2b2b;
+}
+
+/* News Section - Bottom part */
+.sidebar-news {
+  flex: 0 0 300px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background-color: #252526;
+}
+
 .explorer-header {
   padding: 10px 16px;
   font-size: 11px;
@@ -346,48 +364,6 @@
   border-radius: 2px;
   font-size: 12px;
   font-family: 'Consolas', 'Monaco', monospace;
-}
-
-/* Sidebar Tabs */
-.sidebar-tabs {
-  display: flex;
-  gap: 0;
-  border-bottom: 1px solid #2b2b2b;
-  flex-shrink: 0;
-}
-
-.sidebar-tabs .tab-btn {
-  flex: 1;
-  padding: 8px 12px;
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid transparent;
-  color: #858585;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-
-.sidebar-tabs .tab-btn:hover {
-  color: #cccccc;
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-.sidebar-tabs .tab-btn.active {
-  color: #007acc;
-  border-bottom-color: #007acc;
-}
-
-.tab-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.tab-content.sc-tab {
-  overflow-y: auto;
 }
 
 /* Source Control Header */
