@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatService } from '../../../core/services/chat.service';
@@ -10,106 +10,106 @@ import { takeUntil } from 'rxjs/operators';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
+    @if (sidebarMode) {
+    <!-- Sidebar modu: activity bar'dan açılır, tam panel -->
+    <div class="chat-sidebar">
+      <div class="chat-header">
+        <h3>AI Copilot</h3>
+        <button class="btn-icon" (click)="clearChat()" title="Clear messages">🗑️</button>
+      </div>
+
+      <div class="chat-messages" data-chat-messages>
+        @for (message of messages$(); track message.id) {
+          <div class="message"
+               [class.user]="message.sender === 'user'"
+               [class.assistant]="message.sender === 'assistant'"
+               [class.loading]="message.isLoading">
+            <div class="message-avatar">{{ message.sender === 'user' ? '👤' : '🤖' }}</div>
+            <div class="message-content">
+              <div class="message-bubble">{{ message.content }}</div>
+              <span class="message-time">{{ message.timestamp | date:'HH:mm' }}</span>
+            </div>
+          </div>
+        }
+        @if (isLoading$()) {
+          <div class="loading-dots"><span></span><span></span><span></span></div>
+        }
+      </div>
+
+      @if (errorMessage$()) {
+        <div class="error-message">⚠️ {{ errorMessage$() }}</div>
+      }
+
+      <div class="chat-input-area">
+        <form (ngSubmit)="sendMessage()" class="chat-form">
+          <input [(ngModel)]="inputMessage" name="message" type="text"
+            placeholder="Ask me anything..." class="chat-input"
+            [disabled]="isLoading$()" (keydown.enter)="sendMessage()" autocomplete="off">
+          <button type="submit" class="send-btn"
+            [disabled]="!inputMessage.trim() || isLoading$()" title="Send (Enter)">📤</button>
+        </form>
+        <div class="suggested-prompts">
+          @for (prompt of suggestedPrompts; track prompt) {
+            <button class="prompt-btn" (click)="useSuggestedPrompt(prompt)" [disabled]="isLoading$()">
+              {{ prompt }}
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+    } @else {
+    <!-- Floating modu -->
     <div class="chat-widget-container" [class.open]="isOpen$()">
-      <!-- Chat Toggle Button -->
-      <button 
-        class="chat-toggle-btn"
-        (click)="toggleChat()"
+      <button class="chat-toggle-btn" (click)="toggleChat()"
         [attr.aria-label]="isOpen$() ? 'Close chat' : 'Open chat'"
         title="AI Copilot Chat (Ctrl+Shift+C)">
         <span class="chat-icon">💬</span>
         <span class="unread-badge" *ngIf="hasMessages$()">●</span>
       </button>
 
-      <!-- Chat Panel -->
       @if (isOpen$()) {
       <div class="chat-panel">
-        <!-- Header -->
         <div class="chat-header">
           <h3>AI Copilot</h3>
           <div class="header-actions">
-            <button 
-              class="btn-icon"
-              (click)="clearChat()"
-              title="Clear messages">
-              🗑️
-            </button>
-            <button 
-              class="btn-icon"
-              (click)="toggleChat()"
-              title="Close">
-              ✕
-            </button>
+            <button class="btn-icon" (click)="clearChat()" title="Clear messages">🗑️</button>
+            <button class="btn-icon" (click)="toggleChat()" title="Close">✕</button>
           </div>
         </div>
 
-        <!-- Messages Area -->
         <div class="chat-messages" data-chat-messages>
           @for (message of messages$(); track message.id) {
-            <div class="message" 
+            <div class="message"
                  [class.user]="message.sender === 'user'"
                  [class.assistant]="message.sender === 'assistant'"
                  [class.loading]="message.isLoading">
-              
-              <div class="message-avatar">
-                {{ message.sender === 'user' ? '👤' : '🤖' }}
-              </div>
-              
+              <div class="message-avatar">{{ message.sender === 'user' ? '👤' : '🤖' }}</div>
               <div class="message-content">
                 <div class="message-bubble">{{ message.content }}</div>
-                <span class="message-time">
-                  {{ message.timestamp | date:'HH:mm' }}
-                </span>
+                <span class="message-time">{{ message.timestamp | date:'HH:mm' }}</span>
               </div>
             </div>
           }
-
-          <!-- Loading Indicator -->
           @if (isLoading$()) {
-          <div class="loading-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
+            <div class="loading-dots"><span></span><span></span><span></span></div>
           }
         </div>
 
-        <!-- Error Message -->
         @if (errorMessage$()) {
-          <div class="error-message">
-            ⚠️ {{ errorMessage$() }}
-          </div>
+          <div class="error-message">⚠️ {{ errorMessage$() }}</div>
         }
 
-        <!-- Input Area -->
         <div class="chat-input-area">
           <form (ngSubmit)="sendMessage()" class="chat-form">
-            <input
-              [(ngModel)]="inputMessage"
-              name="message"
-              type="text"
-              placeholder="Ask me anything..."
-              class="chat-input"
-              [disabled]="isLoading$()"
-              (keydown.enter)="sendMessage()"
-              autocomplete="off">
-            
-            <button 
-              type="submit"
-              class="send-btn"
-              [disabled]="!inputMessage.trim() || isLoading$()"
-              title="Send (Enter)">
-              📤
-            </button>
+            <input [(ngModel)]="inputMessage" name="message" type="text"
+              placeholder="Ask me anything..." class="chat-input"
+              [disabled]="isLoading$()" (keydown.enter)="sendMessage()" autocomplete="off">
+            <button type="submit" class="send-btn"
+              [disabled]="!inputMessage.trim() || isLoading$()" title="Send (Enter)">📤</button>
           </form>
-
-          <!-- Suggested Prompts -->
           <div class="suggested-prompts">
             @for (prompt of suggestedPrompts; track prompt) {
-              <button 
-                class="prompt-btn"
-                (click)="useSuggestedPrompt(prompt)"
-                [disabled]="isLoading$()">
+              <button class="prompt-btn" (click)="useSuggestedPrompt(prompt)" [disabled]="isLoading$()">
                 {{ prompt }}
               </button>
             }
@@ -118,6 +118,7 @@ import { takeUntil } from 'rxjs/operators';
       </div>
       }
     </div>
+    }
   `,
   styles: [`
     :host {
@@ -127,6 +128,60 @@ import { takeUntil } from 'rxjs/operators';
       --chat-text: #cccccc;
       --chat-user-bg: #0e639c;
       --chat-assistant-bg: #252526;
+    }
+
+    /* Sidebar modu */
+    :host {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+    }
+
+    .chat-sidebar {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      background: var(--chat-bg);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 14px;
+      overflow: hidden;
+    }
+
+    .chat-sidebar .chat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--chat-border);
+      background: #252526;
+      flex-shrink: 0;
+    }
+
+    .chat-sidebar .chat-header h3 {
+      margin: 0;
+      color: var(--chat-text);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .chat-sidebar .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .chat-sidebar .chat-input-area {
+      padding: 10px;
+      border-top: 1px solid var(--chat-border);
+      background: #252526;
+      flex-shrink: 0;
     }
 
     .chat-widget-container {
@@ -482,6 +537,28 @@ import { takeUntil } from 'rxjs/operators';
       cursor: not-allowed;
     }
 
+    /* Sidebar Mode */
+    .sidebar-mode {
+      position: relative;
+      bottom: auto;
+      right: auto;
+      width: 100%;
+      height: 100%;
+    }
+
+    .sidebar-mode .chat-panel {
+      position: relative;
+      bottom: auto;
+      right: auto;
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+      box-shadow: none;
+      border: none;
+      border-right: 1px solid var(--chat-border);
+      animation: none;
+    }
+
     /* Responsive */
     @media (max-width: 600px) {
       .chat-panel {
@@ -497,6 +574,7 @@ import { takeUntil } from 'rxjs/operators';
   `]
 })
 export class ChatWidgetComponent implements OnInit, OnDestroy {
+  @Input() sidebarMode = false;
   inputMessage = '';
   suggestedPrompts = [
     '💼 Tell me about your experience',

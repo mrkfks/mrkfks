@@ -17,9 +17,11 @@
       @if (activeView() === 'settings') {
         <app-settings-panel />
       }
+      @if (activeView() === 'chat') {
+        <app-chat-widget [sidebarMode]="true" />
+      }
     </div>
   </div>
 
   <app-status-bar />
-  <app-chat-widget />
 </div>

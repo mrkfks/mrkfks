@@ -1,7 +1,6 @@
-import { Component, Output, EventEmitter, Input, inject } from '@angular/core';
-import { ChatService } from '../../core/services/chat.service';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
-export type ActiveView = 'explorer' | 'search' | 'news' | 'settings';
+export type ActiveView = 'explorer' | 'search' | 'news' | 'settings' | 'chat';
 
 @Component({
   selector: 'app-activity-bar',
@@ -32,8 +31,8 @@ export type ActiveView = 'explorer' | 'search' | 'news' | 'settings';
         </button>
         <button
           class="icon-btn"
-          [class.active]="chatService.isOpen$()"
-          (click)="chatService.toggleChat()"
+          [class.active]="activeView === 'chat'"
+          (click)="selectView('chat')"
           title="AI Copilot Chat">
           💬
         </button>
@@ -54,8 +53,6 @@ export type ActiveView = 'explorer' | 'search' | 'news' | 'settings';
 export class ActivityBarComponent {
   @Input() activeView: ActiveView = 'explorer';
   @Output() viewChange = new EventEmitter<ActiveView>();
-
-  chatService = inject(ChatService);
 
   selectView(view: ActiveView): void {
     this.viewChange.emit(view);
