@@ -47,3 +47,13 @@
   overflow: hidden;
   display: block;
 }
+
+.chat-right-panel {
+  width: 300px;
+  flex-shrink: 0;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  border-left: 1px solid var(--vs-border);
+  margin-left: auto;
+}

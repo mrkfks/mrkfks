@@ -3,7 +3,11 @@
 
   <div class="vscode-main-body">
     <div class="editor-section">
-      <app-activity-bar (viewChange)="switchView($event)" [activeView]="activeView()" />
+      <app-activity-bar
+        (viewChange)="switchView($event)"
+        [activeView]="activeView()"
+        [chatOpen]="chatOpen()"
+        (chatToggle)="toggleChat()" />
 
       <div class="sidebar-panel">
         @if (activeView() === 'explorer') {
@@ -18,10 +22,13 @@
         @if (activeView() === 'settings') {
           <app-settings-panel />
         }
-        @if (activeView() === 'chat') {
-          <app-chat-widget [sidebarMode]="true" />
-        }
       </div>
+
+      @if (chatOpen()) {
+        <div class="chat-right-panel">
+          <app-chat-widget [sidebarMode]="true" />
+        </div>
+      }
     </div>
   </div>
 

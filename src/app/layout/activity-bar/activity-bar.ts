@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 
-export type ActiveView = 'explorer' | 'search' | 'news' | 'settings' | 'chat';
+export type ActiveView = 'explorer' | 'search' | 'news' | 'settings';
 
 @Component({
   selector: 'app-activity-bar',
@@ -31,8 +31,8 @@ export type ActiveView = 'explorer' | 'search' | 'news' | 'settings' | 'chat';
         </button>
         <button
           class="icon-btn"
-          [class.active]="activeView === 'chat'"
-          (click)="selectView('chat')"
+          [class.active]="chatOpen"
+          (click)="chatToggle.emit()"
           title="AI Copilot Chat">
           💬
         </button>
@@ -52,7 +52,9 @@ export type ActiveView = 'explorer' | 'search' | 'news' | 'settings' | 'chat';
 })
 export class ActivityBarComponent {
   @Input() activeView: ActiveView = 'explorer';
+  @Input() chatOpen = false;
   @Output() viewChange = new EventEmitter<ActiveView>();
+  @Output() chatToggle = new EventEmitter<void>();
 
   selectView(view: ActiveView): void {
     this.viewChange.emit(view);

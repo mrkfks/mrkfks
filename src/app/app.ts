@@ -31,8 +31,13 @@ export class AppComponent {
   private settingsService = inject(SettingsService); // initialize on startup
 
   activeView = signal<ActiveView>('explorer');
+  chatOpen = signal(true);
 
   switchView(view: ActiveView): void {
     this.activeView.set(view);
+  }
+
+  toggleChat(): void {
+    this.chatOpen.update(v => !v);
   }
 }
