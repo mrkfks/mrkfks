@@ -89,7 +89,10 @@ interface FlatNode {
     .explorer-panel::-webkit-scrollbar-thumb { background: #464647; border-radius: 4px; }
 
     .ep-header {
-      padding: 10px 16px;
+      height: 35px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.8px;
