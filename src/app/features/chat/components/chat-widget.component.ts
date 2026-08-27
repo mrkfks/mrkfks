@@ -48,13 +48,6 @@ import { takeUntil } from 'rxjs/operators';
           <button type="submit" class="send-btn"
             [disabled]="!inputMessage.trim() || isLoading$()" title="Send (Enter)">📤</button>
         </form>
-        <div class="suggested-prompts">
-          @for (prompt of suggestedPrompts; track prompt) {
-            <button class="prompt-btn" (click)="useSuggestedPrompt(prompt)" [disabled]="isLoading$()">
-              {{ prompt }}
-            </button>
-          }
-        </div>
       </div>
     </div>
     } @else {
@@ -107,13 +100,6 @@ import { takeUntil } from 'rxjs/operators';
             <button type="submit" class="send-btn"
               [disabled]="!inputMessage.trim() || isLoading$()" title="Send (Enter)">📤</button>
           </form>
-          <div class="suggested-prompts">
-            @for (prompt of suggestedPrompts; track prompt) {
-              <button class="prompt-btn" (click)="useSuggestedPrompt(prompt)" [disabled]="isLoading$()">
-                {{ prompt }}
-              </button>
-            }
-          </div>
         </div>
       </div>
       }
@@ -506,38 +492,6 @@ import { takeUntil } from 'rxjs/operators';
       cursor: not-allowed;
     }
 
-    /* Suggested Prompts */
-    .suggested-prompts {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .prompt-btn {
-      padding: 8px 10px;
-      background: var(--chat-bg);
-      color: #88ccee;
-      border: 1px solid var(--chat-border);
-      border-radius: 4px;
-      font-size: 12px;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.2s;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .prompt-btn:hover:not(:disabled) {
-      background: var(--chat-border);
-      border-color: var(--chat-primary);
-    }
-
-    .prompt-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
     /* Sidebar Mode */
     .sidebar-mode {
       position: relative;
@@ -577,12 +531,6 @@ import { takeUntil } from 'rxjs/operators';
 export class ChatWidgetComponent implements OnInit, OnDestroy {
   @Input() sidebarMode = false;
   inputMessage = '';
-  suggestedPrompts = [
-    '💼 Tell me about your experience',
-    '📚 Show me your projects',
-    '🔧 What technologies do you use?',
-    '📞 How can I contact you?'
-  ];
 
   // Service injection
   private chatService = inject(ChatService);
@@ -627,10 +575,7 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
       });
   }
 
-  useSuggestedPrompt(prompt: string): void {
-    this.inputMessage = prompt;
-    setTimeout(() => this.sendMessage(), 0);
-  }
+  useSuggestedPrompt(prompt: string): void {}
 
   clearChat(): void {
     if (confirm('Clear all messages?')) {
