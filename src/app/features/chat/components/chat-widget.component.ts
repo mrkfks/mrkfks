@@ -135,7 +135,7 @@ import { takeUntil } from 'rxjs/operators';
       display: flex;
       flex-direction: column;
       height: 100%;
-      width: 240px;
+      width: 100%;
       flex-shrink: 0;
     }
 

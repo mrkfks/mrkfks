@@ -39,3 +39,11 @@
   display: flex;
   overflow: hidden;
 }
+
+.sidebar-panel {
+  width: 240px;
+  flex-shrink: 0;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+}

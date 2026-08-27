@@ -5,21 +5,23 @@
     <div class="editor-section">
       <app-activity-bar (viewChange)="switchView($event)" [activeView]="activeView()" />
 
-      @if (activeView() === 'explorer') {
-        <app-explorer-panel />
-      }
-      @if (activeView() === 'search') {
-        <app-search-panel />
-      }
-      @if (activeView() === 'news') {
-        <app-source-control />
-      }
-      @if (activeView() === 'settings') {
-        <app-settings-panel />
-      }
-      @if (activeView() === 'chat') {
-        <app-chat-widget [sidebarMode]="true" />
-      }
+      <div class="sidebar-panel">
+        @if (activeView() === 'explorer') {
+          <app-explorer-panel />
+        }
+        @if (activeView() === 'search') {
+          <app-search-panel />
+        }
+        @if (activeView() === 'news') {
+          <app-source-control />
+        }
+        @if (activeView() === 'settings') {
+          <app-settings-panel />
+        }
+        @if (activeView() === 'chat') {
+          <app-chat-widget [sidebarMode]="true" />
+        }
+      </div>
     </div>
   </div>
 

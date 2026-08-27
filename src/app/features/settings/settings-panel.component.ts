@@ -86,7 +86,7 @@ import { SettingsService, Theme } from '../../core/services/settings.service';
   `,
   styles: [`
     :host {
-      width: 240px;
+      width: 100%;
       flex-shrink: 0;
       display: block;
       height: 100%;

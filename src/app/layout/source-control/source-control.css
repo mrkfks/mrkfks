@@ -1,7 +1,7 @@
 :host {
   height: 100%;
   display: flex;
-  width: 240px;
+  width: 100%;
   flex-shrink: 0;
 }
 

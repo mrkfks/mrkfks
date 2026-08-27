@@ -76,7 +76,7 @@ interface FlatNode {
   `,
   styles: [`
     :host {
-      width: 240px;
+      width: 100%;
       flex-shrink: 0;
       display: block;
       height: 100%;
