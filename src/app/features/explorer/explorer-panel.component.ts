@@ -84,6 +84,7 @@ interface FlatNode {
     .explorer-panel {
       display: flex;
       flex-direction: column;
+      width: 100%;
       height: 100%;
       background: var(--vs-panel, #252526);
       color: var(--vs-text, #cccccc);
