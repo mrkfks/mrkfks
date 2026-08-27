@@ -5,9 +5,15 @@
     <div class="editor-section">
       <app-activity-bar
         (viewChange)="switchView($event)"
-        [activeView]="activeView()" />
+        [activeView]="activeView()"
+        [sidebarOpen]="sidebarOpen()" />
 
-      <div class="sidebar-panel">
+      <!-- Mobile backdrop -->
+      @if (isMobile() && sidebarOpen()) {
+        <div class="mobile-backdrop" (click)="closeSidebar()"></div>
+      }
+
+      <div class="sidebar-panel" [class.mobile-open]="sidebarOpen()">
         @if (activeView() === 'explorer') {
           <app-explorer-panel />
         }

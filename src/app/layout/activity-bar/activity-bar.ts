@@ -10,21 +10,21 @@ export type ActiveView = 'explorer' | 'search' | 'news' | 'settings';
       <div class="top-icons">
         <button
           class="icon-btn"
-          [class.active]="activeView === 'explorer'"
+          [class.active]="activeView === 'explorer' && sidebarOpen"
           (click)="selectView('explorer')"
           title="Explorer">
           📄
         </button>
         <button
           class="icon-btn"
-          [class.active]="activeView === 'search'"
+          [class.active]="activeView === 'search' && sidebarOpen"
           (click)="selectView('search')"
           title="Ara">
           🔍
         </button>
         <button
           class="icon-btn"
-          [class.active]="activeView === 'news'"
+          [class.active]="activeView === 'news' && sidebarOpen"
           (click)="selectView('news')"
           title="Haber Akışı / Git Timeline">
           📰
@@ -33,7 +33,7 @@ export type ActiveView = 'explorer' | 'search' | 'news' | 'settings';
       <div class="bottom-icons">
         <button
           class="icon-btn"
-          [class.active]="activeView === 'settings'"
+          [class.active]="activeView === 'settings' && sidebarOpen"
           (click)="selectView('settings')"
           title="Ayarlar">
           ⚙️
@@ -45,6 +45,7 @@ export type ActiveView = 'explorer' | 'search' | 'news' | 'settings';
 })
 export class ActivityBarComponent {
   @Input() activeView: ActiveView = 'explorer';
+  @Input() sidebarOpen = true;
   @Output() viewChange = new EventEmitter<ActiveView>();
 
   selectView(view: ActiveView): void {

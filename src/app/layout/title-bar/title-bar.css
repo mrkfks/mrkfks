@@ -26,3 +26,15 @@
 .close { background-color: #ff5f56; }
 .minimize { background-color: #ffbd2e; }
 .maximize { background-color: #27c93f; }
+
+@media (max-width: 768px) {
+  .window-controls {
+    display: none;
+  }
+
+  .titlebar {
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+  }
+}

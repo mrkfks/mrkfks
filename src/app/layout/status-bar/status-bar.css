@@ -42,3 +42,19 @@
   color: #73c991;
   font-weight: bold;
 }
+
+@media (max-width: 768px) {
+  .right-items .badge,
+  .right-items .item:not(:first-child) {
+    display: none;
+  }
+
+  .left-items .item:not(.branch) {
+    display: none;
+  }
+
+  .status-bar {
+    font-size: 11px;
+    padding: 0 12px;
+  }
+}

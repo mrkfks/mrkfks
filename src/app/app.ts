@@ -1,4 +1,4 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TitleBarComponent } from './layout/title-bar/title-bar';
 import { ActivityBarComponent, ActiveView } from './layout/activity-bar/activity-bar';
@@ -31,12 +31,34 @@ import { MarkdownCardComponent } from './shared/components/markdown-card/markdow
   styleUrl: './app.css'
 })
 export class AppComponent {
-  private settingsService = inject(SettingsService); // initialize on startup
+  private settingsService = inject(SettingsService);
   tabService = inject(TabStateService);
 
   activeView = signal<ActiveView>('explorer');
+  sidebarOpen = signal(true);
+  isMobile = signal(window.innerWidth < 768);
+
+  @HostListener('window:resize')
+  onResize(): void {
+    const mobile = window.innerWidth < 768;
+    this.isMobile.set(mobile);
+    if (!mobile) this.sidebarOpen.set(true);
+  }
 
   switchView(view: ActiveView): void {
-    this.activeView.set(view);
+    if (this.isMobile()) {
+      if (this.activeView() === view && this.sidebarOpen()) {
+        this.sidebarOpen.set(false);
+      } else {
+        this.activeView.set(view);
+        this.sidebarOpen.set(true);
+      }
+    } else {
+      this.activeView.set(view);
+    }
+  }
+
+  closeSidebar(): void {
+    this.sidebarOpen.set(false);
   }
 }
