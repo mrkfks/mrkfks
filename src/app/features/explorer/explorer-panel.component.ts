@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal, computed, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ContentService } from '../../core/services/content.service';
-import { MarkdownCardComponent } from '../../shared/components/markdown-card/markdown-card.component';
+import { TabStateService } from '../../core/services/tab-state.service';
 
 interface FileNode {
   id: string;
@@ -25,52 +25,43 @@ interface FlatNode {
 @Component({
   selector: 'app-explorer-panel',
   standalone: true,
-  imports: [CommonModule, MarkdownCardComponent],
+  imports: [CommonModule],
   encapsulation: ViewEncapsulation.None,
   template: `
     <div class="explorer-panel">
-      @if (selectedPath()) {
-        <app-markdown-card
-          [filePath]="selectedPath()!"
-          [content]="markdownContent()"
-          [loading]="isLoadingContent()"
-          (closed)="closeFile()">
-        </app-markdown-card>
-      } @else {
-        <div class="ep-header">EXPLORER</div>
+      <div class="ep-header">EXPLORER</div>
 
-        <button class="ep-root-btn" (click)="rootOpen.set(!rootOpen())">
-          <span class="ep-arrow" [class.open]="rootOpen()">›</span>
-          <span class="ep-root-name">MRKFKS</span>
-        </button>
+      <button class="ep-root-btn" (click)="rootOpen.set(!rootOpen())">
+        <span class="ep-arrow" [class.open]="rootOpen()">›</span>
+        <span class="ep-root-name">MRKFKS</span>
+      </button>
 
-        @if (rootOpen()) {
-          <div class="ep-tree">
-            @for (node of flatNodes(); track node.id) {
-              @if (node.type === 'folder') {
-                <button
-                  class="ep-node ep-folder-node"
-                  [style.padding-left.px]="node.depth * 12 + 8"
-                  (click)="toggleFolder(node.id)">
-                  <span class="ep-arrow" [class.open]="node.isOpen">›</span>
-                  <span class="ep-folder-icon">{{ node.isOpen ? '📂' : '📁' }}</span>
-                  <span class="ep-label">{{ node.name }}</span>
-                </button>
-              } @else {
-                <button
-                  class="ep-node ep-file-node"
-                  [class.active]="selectedPath() === node.path"
-                  [style.padding-left.px]="node.depth * 12 + 22"
-                  (click)="selectFile(node.path ?? '')">
-                  <span class="ep-ext-icon" [style.color]="fileIcon(node.name).color">
-                    {{ fileIcon(node.name).label }}
-                  </span>
-                  <span class="ep-label">{{ node.name }}</span>
-                </button>
-              }
+      @if (rootOpen()) {
+        <div class="ep-tree">
+          @for (node of flatNodes(); track node.id) {
+            @if (node.type === 'folder') {
+              <button
+                class="ep-node ep-folder-node"
+                [style.padding-left.px]="node.depth * 12 + 8"
+                (click)="toggleFolder(node.id)">
+                <span class="ep-arrow" [class.open]="node.isOpen">›</span>
+                <span class="ep-folder-icon">{{ node.isOpen ? '📂' : '📁' }}</span>
+                <span class="ep-label">{{ node.name }}</span>
+              </button>
+            } @else {
+              <button
+                class="ep-node ep-file-node"
+                [class.active]="tabService.activeTab$()?.path === node.path"
+                [style.padding-left.px]="node.depth * 12 + 22"
+                (click)="selectFile(node.path ?? '', node.name)">
+                <span class="ep-ext-icon" [style.color]="fileIcon(node.name).color">
+                  {{ fileIcon(node.name).label }}
+                </span>
+                <span class="ep-label">{{ node.name }}</span>
+              </button>
             }
-          </div>
-        }
+          }
+        </div>
       }
     </div>
   `,
@@ -186,15 +177,12 @@ interface FlatNode {
 })
 export class ExplorerPanelComponent implements OnInit {
   private contentService = inject(ContentService);
+  tabService = inject(TabStateService);
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   private rawTree = signal<FileNode[]>([]);
   rootOpen = signal(true);
   flatNodes = computed(() => this.flatten(this.rawTree(), 0));
-
-  selectedPath = signal<string | null>(null);
-  markdownContent = signal('');
-  isLoadingContent = signal(false);
 
   ngOnInit(): void {
     if (this.isBrowser) {
@@ -209,23 +197,11 @@ export class ExplorerPanelComponent implements OnInit {
     this.rawTree.set(this.toggleNode(this.rawTree(), nodeId));
   }
 
-  selectFile(path: string): void {
+  selectFile(path: string, name: string): void {
     if (!path) return;
-    this.selectedPath.set(path);
-    this.markdownContent.set('');
-    this.isLoadingContent.set(true);
-    this.contentService.loadContent(path).subscribe({
-      next: (c) => { this.markdownContent.set(c); this.isLoadingContent.set(false); },
-      error: () => {
-        this.markdownContent.set(`# Hata\n\nDosya yüklenemedi: \`${path}\``);
-        this.isLoadingContent.set(false);
-      }
-    });
-  }
-
-  closeFile(): void {
-    this.selectedPath.set(null);
-    this.markdownContent.set('');
+    const ext = name.split('.').pop()?.toLowerCase();
+    const type = ext === 'json' ? 'json' : 'markdown';
+    this.tabService.addTab({ id: path, name, path, type, isActive: true });
   }
 
   fileIcon(name: string): { label: string; color: string } {

@@ -9,6 +9,8 @@ import { SourceControlComponent } from './features/source-control/source-control
 import { ExplorerPanelComponent } from './features/explorer/explorer-panel.component';
 import { SettingsPanelComponent } from './features/settings/settings-panel.component';
 import { SettingsService } from './core/services/settings.service';
+import { TabStateService } from './core/services/tab-state.service';
+import { MarkdownCardComponent } from './shared/components/markdown-card/markdown-card.component';
 
 @Component({
   selector: 'app-root',
@@ -22,13 +24,15 @@ import { SettingsService } from './core/services/settings.service';
     SourceControlComponent,
     SettingsPanelComponent,
     StatusBarComponent,
-    ChatWidgetComponent
+    ChatWidgetComponent,
+    MarkdownCardComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class AppComponent {
   private settingsService = inject(SettingsService); // initialize on startup
+  tabService = inject(TabStateService);
 
   activeView = signal<ActiveView>('explorer');
 

@@ -22,6 +22,21 @@
         }
       </div>
 
+      <div class="editor-area">
+        @if (tabService.activeTab$()) {
+          <app-markdown-card
+            [filePath]="tabService.activeTab$()!.name"
+            [content]="tabService.activeTab$()!.content ?? ''"
+            [loading]="tabService.activeTab$()!.isLoading ?? false"
+            (closed)="tabService.closeTab(tabService.activeTab$()!.id)">
+          </app-markdown-card>
+        } @else {
+          <div class="editor-empty">
+            <span>Bir dosya seçin</span>
+          </div>
+        }
+      </div>
+
       <div class="chat-right-panel">
         <app-chat-widget [sidebarMode]="true" />
       </div>
