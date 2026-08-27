@@ -135,7 +135,8 @@ import { takeUntil } from 'rxjs/operators';
       display: flex;
       flex-direction: column;
       height: 100%;
-      width: 100%;
+      width: 240px;
+      flex-shrink: 0;
     }
 
     .chat-sidebar {

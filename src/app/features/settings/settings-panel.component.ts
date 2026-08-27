@@ -85,6 +85,12 @@ import { SettingsService, Theme } from '../../core/services/settings.service';
     </div>
   `,
   styles: [`
+    :host {
+      width: 240px;
+      flex-shrink: 0;
+      display: block;
+      height: 100%;
+    }
     .settings-panel {
       display: flex;
       flex-direction: column;
