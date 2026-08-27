@@ -44,7 +44,7 @@ import { takeUntil } from 'rxjs/operators';
         <form (ngSubmit)="sendMessage()" class="chat-form">
           <input [(ngModel)]="inputMessage" name="message" type="text"
             placeholder="Ask me anything..." class="chat-input"
-            [disabled]="isLoading$()" (keydown.enter)="sendMessage()" autocomplete="off">
+            [disabled]="isLoading$()" autocomplete="off">
           <button type="submit" class="send-btn"
             [disabled]="!inputMessage.trim() || isLoading$()" title="Send (Enter)">📤</button>
         </form>
@@ -96,7 +96,7 @@ import { takeUntil } from 'rxjs/operators';
           <form (ngSubmit)="sendMessage()" class="chat-form">
             <input [(ngModel)]="inputMessage" name="message" type="text"
               placeholder="Ask me anything..." class="chat-input"
-              [disabled]="isLoading$()" (keydown.enter)="sendMessage()" autocomplete="off">
+              [disabled]="isLoading$()" autocomplete="off">
             <button type="submit" class="send-btn"
               [disabled]="!inputMessage.trim() || isLoading$()" title="Send (Enter)">📤</button>
           </form>
