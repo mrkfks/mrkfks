@@ -5,9 +5,7 @@
     <div class="editor-section">
       <app-activity-bar
         (viewChange)="switchView($event)"
-        [activeView]="activeView()"
-        [chatOpen]="chatOpen()"
-        (chatToggle)="toggleChat()" />
+        [activeView]="activeView()" />
 
       <div class="sidebar-panel">
         @if (activeView() === 'explorer') {
@@ -24,11 +22,9 @@
         }
       </div>
 
-      @if (chatOpen()) {
-        <div class="chat-right-panel">
-          <app-chat-widget [sidebarMode]="true" />
-        </div>
-      }
+      <div class="chat-right-panel">
+        <app-chat-widget [sidebarMode]="true" />
+      </div>
     </div>
   </div>
 

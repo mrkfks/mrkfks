@@ -29,13 +29,6 @@ export type ActiveView = 'explorer' | 'search' | 'news' | 'settings';
           title="Haber Akışı / Git Timeline">
           📰
         </button>
-        <button
-          class="icon-btn"
-          [class.active]="chatOpen"
-          (click)="chatToggle.emit()"
-          title="AI Copilot Chat">
-          💬
-        </button>
       </div>
       <div class="bottom-icons">
         <button
@@ -52,9 +45,7 @@ export type ActiveView = 'explorer' | 'search' | 'news' | 'settings';
 })
 export class ActivityBarComponent {
   @Input() activeView: ActiveView = 'explorer';
-  @Input() chatOpen = false;
   @Output() viewChange = new EventEmitter<ActiveView>();
-  @Output() chatToggle = new EventEmitter<void>();
 
   selectView(view: ActiveView): void {
     this.viewChange.emit(view);
