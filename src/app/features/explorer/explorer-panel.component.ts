@@ -176,6 +176,13 @@ interface FlatNode {
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
+    @media (max-width: 768px) {
+      .ep-header { font-size: 12px; }
+      .ep-label { font-size: 15px; }
+      .ep-node { padding-top: 10px; padding-bottom: 10px; }
+      .ep-folder-icon { font-size: 15px; }
+    }
   `]
 })
 export class ExplorerPanelComponent implements OnInit {

@@ -72,7 +72,10 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
       font-size: var(--vs-font-size, 13px);
       line-height: 1.7;
       overflow-y: auto;
+      overflow-x: hidden;
       font-family: 'Segoe UI', Tahoma, sans-serif;
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
     .md-card-body::-webkit-scrollbar { width: 8px; }
     .md-card-body::-webkit-scrollbar-track { background: transparent; }
@@ -123,6 +126,29 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     }
     .md-card-body strong { color: #dcdcaa; font-weight: 600; }
     .md-card-body em { color: var(--vs-string, #ce9178); font-style: italic; }
+    .md-card-body img { max-width: 100%; height: auto; }
+    .md-card-body pre {
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .md-card-body table {
+      width: 100%;
+      border-collapse: collapse;
+      display: block;
+      overflow-x: auto;
+    }
+
+    @media (max-width: 768px) {
+      .md-card-body {
+        font-size: 15px;
+        padding: 16px;
+        line-height: 1.8;
+      }
+      .md-card-body h1 { font-size: 1.4em; }
+      .md-card-body h2 { font-size: 1.2em; }
+      .md-card-body h3 { font-size: 1.05em; }
+    }
   `]
 })
 export class MarkdownCardComponent {
