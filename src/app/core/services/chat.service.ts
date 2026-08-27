@@ -47,7 +47,7 @@ export class ChatService implements OnDestroy {
     this.messagesSignal.set([{
       id: 'welcome',
       sender: 'assistant',
-      content: '👋 Hi! I\'m your AI Copilot. Ask me about my experience, projects, or technologies!',
+      content: '👋 Merhaba! Doğrudan İletişime Geçmek İçin Mesaj Gönderebilirsiniz',
       timestamp: new Date(),
     }]);
   }
