@@ -560,16 +560,15 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
   }
 
   sendMessage(): void {
-    if (!this.inputMessage.trim()) {
-      return;
-    }
+    const message = this.inputMessage.trim();
+    if (!message || this.isLoading$()) return;
 
-    this.chatService.sendMessage(this.inputMessage)
+    this.inputMessage = ''; // çift submit'i önlemek için önce temizle
+
+    this.chatService.sendMessage(message)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: () => {
-          this.inputMessage = '';
-        },
+        next: () => {},
         error: (err: Error) => {
           console.error('Error sending message:', err);
         }

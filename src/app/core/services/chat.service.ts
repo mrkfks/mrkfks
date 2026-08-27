@@ -115,7 +115,7 @@ export class ChatService implements OnDestroy {
   closeChat(): void { this.isOpenSignal.set(false); }
 
   sendMessage(content: string): Observable<{ content: string }> {
-    if (!content.trim()) return throwError(() => new Error('Message cannot be empty'));
+    if (!content.trim() || this.isLoadingSignal()) return throwError(() => new Error('Invalid'));
 
     this.addMessage({
       id: `user-${Date.now()}`,
